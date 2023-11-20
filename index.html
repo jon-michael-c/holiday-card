@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./dist/css/styles.css" />
+
+    <title>Character Creator</title>
+  </head>
+
+  <body>
+    <canvas id="c"></canvas>
+    <script type="module" src="./dist/js/index.js"></script>
+    <div id="controlPanel">
+      <div>
+        <p>Section 1:</p>
+        <button onClick="card.rotate('left', 3);">b</button>
+        <button onClick="card.rotate('right', 3);">f</button>
+      </div>
+      <div>
+        <p>Section 1:</p>
+        <button onClick="card.rotate('left', 2);">b</button>
+        <button onClick="card.rotate('right', 2);">f</button>
+      </div>
+      <div>
+        <p>Section 1:</p>
+        <button onClick="card.rotate('left', 1);">b</button>
+        <button onClick="card.rotate('right', 1);">f</button>
+      </div>
+      <div>
+        <p>Section 1:</p>
+        <button onClick="card.rotate('left', 0);">b</button>
+        <button onClick="card.rotate('right', 0);">f</button>
+      </div>
+    </div>
+  </body>
+</html>
