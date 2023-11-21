@@ -12,38 +12,82 @@ export default class HoliCard {
 
   init() {
     this.createScene();
+    this.createLights();
     this.createCube();
+    this.createSnowyGround();
     this.addRandomObjects();
     this.createSnow();
-    this.createSnowyGround(); // Add snowy ground
+    this.createTrees();
     this.render();
     this.setMouseEvents();
+  }
+
+  createLights() {
+    // Ambient Light
+    const hemisphereLight = new THREE.HemisphereLight(0xaaaaaa, 0x000000, 0.9);
+    this.scene.add(hemisphereLight);
+
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.5); // Increase intensity
+
+    // Directional Light
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.2); // Increase intensity
+    directionalLight.position.set(100, 100, 50);
+    directionalLight.castShadow = true;
+
+    // Point Light
+    const pointLight = new THREE.PointLight(0xffffff, 0.8, 1000, 2); // Increase intensity
+    pointLight.position.set(-100, 200, -100);
+    pointLight.castShadow = true;
+
+    // Spotlight
+    const spotLight = new THREE.SpotLight(0xffffff, 0.8); // Increase intensity
+    spotLight.position.set(100, 300, 100);
+    spotLight.castShadow = true;
+
+    this.scene.add(ambientLight, directionalLight, pointLight, spotLight);
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.6);
+    this.scene.add(hemiLight);
   }
 
   createScene() {
     // Scene setup
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(
-      90,
+      75,
       window.innerWidth / window.innerHeight,
       0.1,
       1000
     );
-    this.scene.background = new THREE.Color(0xadd8e6); // Light blue, for example
     this.renderer = new THREE.WebGLRenderer({
       canvas: document.querySelector("#c"),
+      antialias: true, // Enable anti-aliasing
     });
+
+    this.renderer.gammaFactor = 2.2;
+    this.renderer.gammaOutput = true;
+    this.renderer.gammaInput = true;
+    this.renderer.physicallyCorrectLights = true;
+    this.renderer.shadowMap.enabled = true;
+    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    this.scene.background = new THREE.Color(0xadd8e6); // Light blue, for example
     this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setPixelRatio(window.devicePixelRatio); // Adjust for high resolution displays
     this.camera.position.z = 5;
   }
 
   createSnowyGround() {
-    const groundGeometry = new THREE.PlaneGeometry(2000, 2000); // Large flat plane
-    const groundMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff }); // White material
+    const groundGeometry = new THREE.PlaneGeometry(1000, 1000); // Large flat plane
+    const groundMaterial = new THREE.MeshPhongMaterial({
+      color: 0xffffff,
+      specular: 0x222222,
+      shininess: 25,
+    }); // White material
     const ground = new THREE.Mesh(groundGeometry, groundMaterial);
 
-    ground.position.y = -5; // Adjust this to place the ground at the desired level
+    ground.position.y = -2; // Adjust this to place the ground at the desired level
     ground.rotation.x = -Math.PI / 2; // Rotate the plane to be horizontal
+    ground.receiveShadow = true;
+    ground.castShadow = true;
 
     this.scene.add(ground);
   }
@@ -55,7 +99,7 @@ export default class HoliCard {
 
     // Function to create an array of materials with different colors for each face
     function createMaterialsForSection(colors) {
-      return colors.map((color) => new THREE.MeshBasicMaterial({ color }));
+      return colors.map((color) => new THREE.MeshPhongMaterial({ color }));
     }
 
     // Colors for the faces of each section
@@ -78,6 +122,11 @@ export default class HoliCard {
       section.position.y = (i - 1.5) * sectionHeight;
       this.cubeGroup.add(section); // Add to group
     }
+
+    this.cubeGroup.children.forEach((child) => {
+      child.castShadow = true;
+      child.receiveShadow = true;
+    });
 
     this.scene.add(this.cubeGroup);
   }
@@ -219,7 +268,7 @@ export default class HoliCard {
         new THREE.ConeGeometry(0.5, 1, 32),
         // ... add more geometries if you like
       ];
-      const material = new THREE.MeshBasicMaterial({
+      const material = new THREE.MeshPhongMaterial({
         color: Math.random() * 0xffffff,
       });
       const randomGeometry =
@@ -231,12 +280,27 @@ export default class HoliCard {
       object.position.y = (Math.random() - 0.5) * 20;
       object.position.z = (Math.random() - 0.5) * 20;
 
+      object.receiveShadow = true;
+      object.castShadow = true;
       this.scene.add(object);
     }
   }
 
+  createTrees() {
+    const treeCount = 5; // Number of trees
+    for (let i = 0; i < treeCount; i++) {
+      const tree = new this.Tree();
+      tree.mesh.position.set(
+        (Math.random() - 0.5) * 599, // Random X position
+        -1, // Y position (adjust based on ground level)
+        (Math.random() - 0.5) * 1000 // Random Z position
+      );
+      this.scene.add(tree.mesh);
+    }
+  }
+
   createSnow() {
-    const snowflakeCount = 2500; // Number of snowflakes
+    const snowflakeCount = 3500; // Number of snowflakes
     const geometry = new THREE.BufferGeometry();
     const vertices = [];
 
@@ -254,11 +318,52 @@ export default class HoliCard {
 
     const material = new THREE.PointsMaterial({
       color: 0xffffff,
-      size: 6,
+      size: 3,
       sizeAttenuation: true,
     });
     this.snow = new THREE.Points(geometry, material);
 
     this.scene.add(this.snow);
   }
+
+  Tree = function () {
+    const Colors = {
+      brown: 0x59332e,
+      green: 0x7abf8e,
+    };
+    this.mesh = new THREE.Object3D();
+
+    var matTreeLeaves = new THREE.MeshPhongMaterial({
+      color: Colors.green,
+      shading: THREE.FlatShading,
+    });
+
+    var geonTreeBase = new THREE.BoxGeometry(10, 20, 10);
+    var matTreeBase = new THREE.MeshPhongMaterial({ color: Colors.brown });
+    var treeBase = new THREE.Mesh(geonTreeBase, matTreeBase);
+    treeBase.castShadow = true;
+    treeBase.receiveShadow = true;
+    this.mesh.add(treeBase);
+
+    var geomTreeLeaves1 = new THREE.CylinderGeometry(1, 12 * 3, 12 * 3, 4);
+    var treeLeaves1 = new THREE.Mesh(geomTreeLeaves1, matTreeLeaves);
+    treeLeaves1.castShadow = true;
+    treeLeaves1.receiveShadow = true;
+    treeLeaves1.position.y = 20;
+    this.mesh.add(treeLeaves1);
+
+    var geomTreeLeaves2 = new THREE.CylinderGeometry(1, 9 * 3, 9 * 3, 4);
+    var treeLeaves2 = new THREE.Mesh(geomTreeLeaves2, matTreeLeaves);
+    treeLeaves2.castShadow = true;
+    treeLeaves2.position.y = 40;
+    treeLeaves2.receiveShadow = true;
+    this.mesh.add(treeLeaves2);
+
+    var geomTreeLeaves3 = new THREE.CylinderGeometry(1, 6 * 3, 6 * 3, 4);
+    var treeLeaves3 = new THREE.Mesh(geomTreeLeaves3, matTreeLeaves);
+    treeLeaves3.castShadow = true;
+    treeLeaves3.position.y = 55;
+    treeLeaves3.receiveShadow = true;
+    this.mesh.add(treeLeaves3);
+  };
 }
