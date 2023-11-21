@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import * as dat from "dat.gui";
 
 export default class HoliCard {
   constructor() {
@@ -13,6 +14,7 @@ export default class HoliCard {
   init() {
     this.createScene();
     this.createLights();
+    this.setupGui();
     this.createCube();
     this.createSnowyGround();
     this.addRandomObjects();
@@ -23,30 +25,20 @@ export default class HoliCard {
   }
 
   createLights() {
-    // Ambient Light
-    const hemisphereLight = new THREE.HemisphereLight(0xaaaaaa, 0x000000, 0.9);
-    this.scene.add(hemisphereLight);
+    this.ambientLight = new THREE.HemisphereLight(0xffffff, 0.3); // Reduced intensity for ambient light
+    this.mainLight = new THREE.DirectionalLight(0xffffff, 0.7); // Main directional light
+    this.mainLight.position.set(10, 10, 10); // Adjust position for better illumination
+    this.mainLight.castShadow = true;
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.5); // Increase intensity
+    // Add an additional light for more balanced illumination
+    this.fillLight = new THREE.DirectionalLight(0xffffff, 1);
+    this.fillLight.position.set(-50, 50, -50);
+    this.fillLight.castShadow = false; // This light doesn't need to cast shadows
+    this.mainLight.shadow.camera.near = 1;
+    this.mainLight.shadow.camera.far = 200;
+    this.mainLight.shadow.bias = -0.001;
 
-    // Directional Light
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.2); // Increase intensity
-    directionalLight.position.set(100, 100, 50);
-    directionalLight.castShadow = true;
-
-    // Point Light
-    const pointLight = new THREE.PointLight(0xffffff, 0.8, 1000, 2); // Increase intensity
-    pointLight.position.set(-100, 200, -100);
-    pointLight.castShadow = true;
-
-    // Spotlight
-    const spotLight = new THREE.SpotLight(0xffffff, 0.8); // Increase intensity
-    spotLight.position.set(100, 300, 100);
-    spotLight.castShadow = true;
-
-    this.scene.add(ambientLight, directionalLight, pointLight, spotLight);
-    const hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.6);
-    this.scene.add(hemiLight);
+    this.scene.add(this.mainLight, this.ambientLight, this.fillLight);
   }
 
   createScene() {
@@ -58,16 +50,19 @@ export default class HoliCard {
       0.1,
       1000
     );
+
+    this.scene.fog = new THREE.Fog(0xf7f7f7, 100, 650);
+
     this.renderer = new THREE.WebGLRenderer({
       canvas: document.querySelector("#c"),
       antialias: true, // Enable anti-aliasing
+      alpha: true,
     });
 
     this.renderer.gammaFactor = 2.2;
     this.renderer.gammaOutput = true;
-    this.renderer.gammaInput = true;
     this.renderer.physicallyCorrectLights = true;
-    this.renderer.shadowMap.enabled = true;
+    this.renderer.toneMappingExposure = 1; // Adjust exposure
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     this.scene.background = new THREE.Color(0xadd8e6); // Light blue, for example
     this.renderer.setSize(window.innerWidth, window.innerHeight);
@@ -77,17 +72,14 @@ export default class HoliCard {
 
   createSnowyGround() {
     const groundGeometry = new THREE.PlaneGeometry(1000, 1000); // Large flat plane
-    const groundMaterial = new THREE.MeshPhongMaterial({
+    const groundMaterial = new THREE.MeshStandardMaterial({
       color: 0xffffff,
-      specular: 0x222222,
-      shininess: 25,
     }); // White material
     const ground = new THREE.Mesh(groundGeometry, groundMaterial);
 
     ground.position.y = -2; // Adjust this to place the ground at the desired level
     ground.rotation.x = -Math.PI / 2; // Rotate the plane to be horizontal
     ground.receiveShadow = true;
-    ground.castShadow = true;
 
     this.scene.add(ground);
   }
@@ -333,11 +325,11 @@ export default class HoliCard {
     };
     this.mesh = new THREE.Object3D();
 
-    var matTreeLeaves = new THREE.MeshPhongMaterial({
+    var matTreeLeaves = new THREE.MeshStandardMaterial({
       color: Colors.green,
-      shading: THREE.FlatShading,
+      roughness: 0.7,
+      metalness: 0.3,
     });
-
     var geonTreeBase = new THREE.BoxGeometry(10, 20, 10);
     var matTreeBase = new THREE.MeshPhongMaterial({ color: Colors.brown });
     var treeBase = new THREE.Mesh(geonTreeBase, matTreeBase);
@@ -366,4 +358,30 @@ export default class HoliCard {
     treeLeaves3.receiveShadow = true;
     this.mesh.add(treeLeaves3);
   };
+  setupGui() {
+    this.gui = new dat.GUI();
+
+    // Example: Control for ambient light intensity
+    const ambientLightFolder = this.gui.addFolder("Ambient Light");
+    ambientLightFolder
+      .add(this.ambientLight, "intensity", 0, 2, 0.1)
+      .name("Intensity");
+
+    // Example: Control for directional light position
+    const directionalLightFolder = this.gui.addFolder("Directional Light");
+    directionalLightFolder
+      .add(this.mainLight.position, "x", -100, 100, 1)
+      .name("Position X");
+    directionalLightFolder
+      .add(this.mainLight.position, "y", -100, 100, 1)
+      .name("Position Y");
+    directionalLightFolder
+      .add(this.mainLight.position, "z", -100, 100, 1)
+      .name("Position Z");
+    directionalLightFolder
+      .add(this.mainLight, "intensity", 0, 2, 0.1)
+      .name("Intensity");
+
+    // Add more controls as needed for other lights or properties
+  }
 }
