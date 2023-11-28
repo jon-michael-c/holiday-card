@@ -31,6 +31,8 @@ function createCube() {
     child.castShadow = true;
     child.receiveShadow = true;
   });
+
+  return cubeGroup;
 }
 
 export { createCube };

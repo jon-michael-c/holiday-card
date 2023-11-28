@@ -25,10 +25,11 @@ function createSnowyGround() {
   ground.rotation.x = -Math.PI / 2; // Rotate the plane to be horizontal
   ground.receiveShadow = true;
 
-  scene.add(ground);
+  return ground;
 }
 
 function createRandomObjects() {
+  const randomObjects = [];
   const objectCount = 10; // Number of random objects
   for (let i = 0; i < objectCount; i++) {
     // Create random geometries like box, sphere, cone, etc.
@@ -52,21 +53,27 @@ function createRandomObjects() {
 
     object.receiveShadow = true;
     object.castShadow = true;
-    scene.add(object);
+    randomObjects.push(object);
   }
+
+  return randomObjects;
 }
 
 function createTrees() {
+  const trees = [];
   const treeCount = 5; // Number of trees
   for (let i = 0; i < treeCount; i++) {
-    const tree = new Tree();
-    tree.mesh.position.set(
+    const tree = Tree();
+    tree.position.set(
       (Math.random() - 0.5) * 599, // Random X position
       -1, // Y position (adjust based on ground level)
       (Math.random() - 0.5) * 1000 // Random Z position
     );
-    scene.add(tree.mesh);
+
+    trees.push(tree);
   }
+
+  return trees;
 }
 
 function createSnow() {
@@ -132,6 +139,8 @@ const Tree = () => {
   treeLeaves3.position.y = 55;
   treeLeaves3.receiveShadow = true;
   mesh.add(treeLeaves3);
+
+  return mesh;
 };
 
 function updateSnow() {
