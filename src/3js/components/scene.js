@@ -4,8 +4,8 @@ function createScene() {
   // Scene setup
   const scene = new Scene();
 
-  scene.fog = new Fog(0xf7f7f7, 100, 650);
-  scene.background = new Color(0xadd8e6); // Light blue, for example
+  scene.background = new Color(0x88ccee);
+  scene.fog = new Fog(0xd5f8f8, 100, 300);
 
   return scene;
 }

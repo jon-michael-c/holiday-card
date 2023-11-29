@@ -1,5 +1,5 @@
-import * as THREE from "three";
 import * as dat from "dat.gui";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 import { createCamera } from "./components/camera";
 import { createCube } from "./components/cube";
@@ -8,12 +8,10 @@ import { createRenderer } from "./systems/renderer";
 import { createScene } from "./components/scene";
 import { Loop } from "./systems/Loop";
 import { Resizer } from "./systems/Resizer";
-import {
-  createRandomObjects,
-  createSnowyGround,
-  createTrees,
-} from "./components/objects";
+import { createRandomObjects, createTrees } from "./components/objects";
 import { createControls } from "./systems/controls";
+import snowSystem from "./components/snow";
+import { createSnowyGround } from "./components/ground";
 
 let camera;
 let renderer;
@@ -37,11 +35,13 @@ export default class HoliCard {
     //container.append(renderer.domElement);
 
     const controls = createControls(camera, container);
+    const snow = new snowSystem(200);
     objects.cubeGroup = createCube();
     objects.lights = createLights();
     objects.ground = createSnowyGround();
     objects.randomObjects = createRandomObjects();
     objects.trees = createTrees();
+    objects.snow = snow.getSnow();
 
     Object.keys(objects).forEach((key) => {
       let obj = objects[key];
@@ -55,8 +55,37 @@ export default class HoliCard {
     });
 
     loop.updatables.push(controls);
+    loop.updatables.push(snow);
 
     const resizer = new Resizer(container, camera, renderer);
+    window.addEventListener(
+      "resize",
+      function () {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      },
+      false
+    );
+
+    objects.camera = camera;
+
+    const loader = new GLTFLoader();
+    loader.load(
+      "../src/3js/models/low_poly_cabin.glb",
+      function (gltf) {
+        // This function is called when the load is completed
+        scene.add(gltf.scene);
+      },
+      function (xhr) {
+        // This function is called during the loading process
+        console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+      },
+      function (error) {
+        // This function is called if an error occurs
+        console.error("An error happened", error);
+      }
+    );
   }
 
   render() {

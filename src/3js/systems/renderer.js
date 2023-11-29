@@ -1,18 +1,19 @@
-import { PCFSoftShadowMap, WebGLRenderer } from "three";
+import { VSMShadowMap, WebGLRenderer, sRGBEncoding } from "three";
 
 function createRenderer(container, window) {
   const renderer = new WebGLRenderer({
     canvas: container,
     antialias: true, // Enable anti-aliasing
+    powerPreference: "high-performance",
     alpha: true,
   });
 
-  renderer.gammaFactor = 2.2;
-  renderer.gammaOutput = true;
-  renderer.toneMappingExposure = 1; // Adjust exposure
-  renderer.shadowMap.type = PCFSoftShadowMap;
+  renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setPixelRatio(window.devicePixelRatio); // Adjust for high resolution displays
+  renderer.setClearColor(0xffffff, 0);
+  renderer.outputEncoding = sRGBEncoding;
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = VSMShadowMap;
 
   return renderer;
 }

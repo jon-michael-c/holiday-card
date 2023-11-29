@@ -1,3 +1,4 @@
+import { MeshToonMaterial } from "three";
 import { Group, MeshPhongMaterial, BoxGeometry, Mesh } from "three";
 
 function createCube() {
@@ -7,7 +8,7 @@ function createCube() {
 
   // Function to create an array of materials with different colors for each face
   function createMaterialsForSection(colors) {
-    return colors.map((color) => new MeshPhongMaterial({ color }));
+    return colors.map((color) => new MeshPhongMaterial({ color: color }));
   }
 
   // Colors for the faces of each section
@@ -32,6 +33,7 @@ function createCube() {
     child.receiveShadow = true;
   });
 
+  cubeGroup.position.x = 0;
   return cubeGroup;
 }
 

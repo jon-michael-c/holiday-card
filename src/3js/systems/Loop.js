@@ -1,4 +1,5 @@
 import { Clock } from "three";
+import { updateSnow } from "../components/snow";
 
 const clock = new Clock();
 
@@ -14,6 +15,7 @@ class Loop {
     this.renderer.setAnimationLoop(() => {
       // tell every animated object to tick forward one frame
       this.tick();
+      this.renderer.toneMappingExposure = Math.pow(0.91, 5.0);
 
       // render a frame
       this.renderer.render(this.scene, this.camera);

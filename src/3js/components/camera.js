@@ -1,3 +1,4 @@
+import { DirectionalLight } from "three";
 import { PerspectiveCamera } from "three";
 
 function createCamera() {
@@ -8,7 +9,9 @@ function createCamera() {
     1000
   );
 
-  camera.position.z = 10;
+  camera.position.x = -32.411949452643235;
+  camera.position.y = 9.651193997737089;
+  camera.position.z = 12.487994644672693;
 
   return camera;
 }
@@ -28,6 +31,17 @@ function rotateCamera(deltaX, deltaY) {
   camera.position.y = radius * Math.cos(azimuthAngle);
   camera.position.z = radius * Math.sin(azimuthAngle) * Math.sin(polarAngle);
 
+  const backlight = new DirectionalLight(0xeeeeff, 2);
+  backlight.position.set(0, -25, 0);
+  camera.add(backlight);
+  const shadowLight = new DirectionalLight(0xffffff, 7);
+
+  shadowLight.castShadow = true;
+  shadowLight.shadow.camera.far = 20;
+  shadowLight.shadow.mapSize.set(1024, 1024);
+  shadowLight.position.set(10, 10, -6);
+
+  camera.add(shadowLight);
   camera.lookAt(cubeGroup.position); // Ensure the camera always points toward the cubeGroup
 }
 
