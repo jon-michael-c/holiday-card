@@ -1,20 +1,46 @@
-import { HemisphereLight, DirectionalLight } from "three";
+import {
+  HemisphereLight,
+  AmbientLight,
+  SpotLight,
+  DirectionalLight,
+} from "three";
 
 function createLights() {
-  const ambientLight = new HemisphereLight(0xffffff, 2); // Reduced intensity for ambient light
-  const mainLight = new DirectionalLight("white", 2); // Main directional light
-  mainLight.position.set(10, 10, 10); // Adjust position for better illumination
-  mainLight.castShadow = true;
+  // Lights
+  const hemiLight = new HemisphereLight(0xfff, 0xfff, 0.6);
+  hemiLight.color.setHSL(0.6, 1, 0.6);
+  hemiLight.groundColor.setHSL(0.095, 1, 0.75);
+  hemiLight.position.set(0, 500, 0);
 
-  // Add an additional light for more balanced illumination
-  const fillLight = new DirectionalLight(0xffffff, 1);
-  fillLight.position.set(-50, 50, -50);
-  fillLight.castShadow = false; // This light doesn't need to cast shadows
-  mainLight.shadow.camera.near = 1;
-  mainLight.shadow.camera.far = 200;
-  mainLight.shadow.bias = -0.001;
+  let shadowMapSize = 13;
+  const sunLight = new DirectionalLight(0xffffff, 1, 100);
+  sunLight.position.set(0, 12, 12);
+  sunLight.color.setHSL(0.1, 1, 0.95);
+  sunLight.visible = true;
+  sunLight.castShadow = true;
+  sunLight.shadow.mapSize.width = 2048;
+  sunLight.shadow.mapSize.height = 2048;
+  sunLight.shadow.camera.near = 0.5;
+  sunLight.shadow.camera.far = shadowMapSize * 2;
+  sunLight.shadow.camera.top = shadowMapSize;
+  sunLight.shadow.camera.bottom = -shadowMapSize;
+  sunLight.shadow.camera.left = -shadowMapSize;
+  sunLight.shadow.camera.right = shadowMapSize;
+  sunLight.shadow.normalBias = 0.02;
 
-  return [ambientLight, mainLight, fillLight];
+  // const helper = new CameraHelper( sunLight.shadow.camera );
+  // scene.add( helper );
+
+  const spotLight = new SpotLight(0xffffff, 4, 6, Math.PI / 4, 1, 1);
+  spotLight.position.set(0, 3.5, 0);
+  spotLight.visible = false;
+  spotLight.castShadow = false;
+  spotLight.shadow.mapSize.width = 1024;
+  spotLight.shadow.mapSize.height = 1024;
+  spotLight.shadow.camera.near = 0.5;
+  spotLight.shadow.camera.far = 2;
+  spotLight.shadow.normalBias = 0.02;
+  return [sunLight, hemiLight];
 }
 
 export { createLights };

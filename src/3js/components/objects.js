@@ -1,32 +1,18 @@
 import {
+  Texture,
   PlaneGeometry,
-  MeshStandardMaterial,
   Mesh,
   BoxGeometry,
   SphereGeometry,
   ConeGeometry,
   MeshPhongMaterial,
   BufferGeometry,
-  Float16BufferAttribute,
   Points,
   PointsMaterial,
   Object3D,
   CylinderGeometry,
+  SmoothShading,
 } from "three";
-
-function createSnowyGround() {
-  const groundGeometry = new PlaneGeometry(1000, 1000); // Large flat plane
-  const groundMaterial = new MeshStandardMaterial({
-    color: 0xffffff,
-  }); // White material
-  const ground = new Mesh(groundGeometry, groundMaterial);
-
-  ground.position.y = -2; // Adjust to place the ground at the desired level
-  ground.rotation.x = -Math.PI / 2; // Rotate the plane to be horizontal
-  ground.receiveShadow = true;
-
-  return ground;
-}
 
 function createRandomObjects() {
   const randomObjects = [];
@@ -76,30 +62,6 @@ function createTrees() {
   return trees;
 }
 
-function createSnow() {
-  const snowflakeCount = 3500; // Number of snowflakes
-  const geometry = new BufferGeometry();
-  const vertices = [];
-
-  for (let i = 0; i < snowflakeCount; i++) {
-    const x = Math.random() * 2000 - 1000; // Spread in X
-    const y = Math.random() * 2000 - 1000; // Spread in Y
-    const z = Math.random() * 2000 - 1000; // Spread in Z
-    vertices.push(x, y, z);
-  }
-
-  geometry.setAttribute("position", new Float32BufferAttribute(vertices, 3));
-
-  const material = new PointsMaterial({
-    color: 0xffffff,
-    size: 3,
-    sizeAttenuation: true,
-  });
-  snow = new Points(geometry, material);
-
-  scene.add(this.snow);
-}
-
 const Tree = () => {
   const Colors = {
     brown: 0x59332e,
@@ -107,13 +69,15 @@ const Tree = () => {
   };
   const mesh = new Object3D();
 
-  var matTreeLeaves = new MeshStandardMaterial({
+  var matTreeLeaves = new MeshPhongMaterial({
     color: Colors.green,
     roughness: 0.7,
     metalness: 0.3,
   });
   var geonTreeBase = new BoxGeometry(10, 20, 10);
-  var matTreeBase = new MeshPhongMaterial({ color: Colors.brown });
+  var matTreeBase = new MeshPhongMaterial({
+    color: Colors.brown,
+  });
   var treeBase = new Mesh(geonTreeBase, matTreeBase);
   treeBase.castShadow = true;
   treeBase.receiveShadow = true;
@@ -157,4 +121,4 @@ function updateSnow() {
   */
 }
 
-export { createSnow, createSnowyGround, createRandomObjects, createTrees };
+export { createRandomObjects, createTrees };
