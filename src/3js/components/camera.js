@@ -1,17 +1,29 @@
+import { Vector3 } from "three";
 import { DirectionalLight } from "three";
-import { PerspectiveCamera } from "three";
+import { OrthographicCamera } from "three";
 
 function createCamera() {
-  const camera = new PerspectiveCamera(
-    75,
-    window.innerWidth / window.innerHeight,
-    0.1,
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+  const camera = new OrthographicCamera(
+    width / -2,
+    width / 2,
+    height / 2,
+    height / -2,
+    1,
     1000
   );
 
-  camera.position.x = -32.411949452643235;
-  camera.position.y = 9.651193997737089;
-  camera.position.z = 12.487994644672693;
+  let x = -6.38021184357724;
+  let y = 0.9546893625763959;
+  let z = -0.5398895207181251;
+
+  const initialPosition = new Vector3(x, y, z);
+
+  camera.position.copy(initialPosition);
+  camera.rotation._x = -2.985637238258691;
+  camera.rotation._y = -1.095131243318181;
+  camera.rotation._z = -3.002714825697314;
 
   return camera;
 }

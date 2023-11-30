@@ -9,7 +9,7 @@ function createRenderer(container, window) {
   });
 
   renderer.setPixelRatio(window.devicePixelRatio);
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setSize(container.clientWidth, container.clientHeight);
   renderer.setClearColor(0xffffff, 0);
   renderer.outputEncoding = sRGBEncoding;
   renderer.shadowMap.enabled = true;

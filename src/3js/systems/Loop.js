@@ -1,5 +1,6 @@
 import { Clock } from "three";
 import { updateSnow } from "../components/snow";
+import { Vector3 } from "three";
 
 const clock = new Clock();
 
