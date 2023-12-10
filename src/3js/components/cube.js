@@ -37,4 +37,13 @@ function createCube() {
   return cubeGroup;
 }
 
+function rotateFace(direction, idx) {
+  this.isRotating = true;
+  this.currentRotationStep =
+    this.rotationSpeed * (direction === "left" ? -1 : 1);
+  this.totalRotation = 0; // Reset total rotation
+  this.targetRotation = Math.PI / 2; // 90 degrees in radians
+  this.currentSection = this.cubeGroup.children[idx];
+}
+
 export { createCube };

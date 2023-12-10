@@ -2,7 +2,7 @@ import * as dat from "dat.gui";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { ColladaLoader } from "three/examples/jsm/loaders/ColladaLoader";
 import { createCamera } from "./components/camera";
-import { createCube } from "./components/cube";
+import { createCube, rotateFace } from "./components/cube";
 import { createLights } from "./components/lights";
 import { createRenderer } from "./systems/renderer";
 import { createScene } from "./components/scene";
@@ -32,7 +32,7 @@ export default class HoliCard {
     this.objects = objects;
 
     renderer = createRenderer(container, window);
-    camera = createCamera();
+    camera = createCamera(container);
     scene = createScene();
     loop = new Loop(camera, scene, renderer);
     //container.append(renderer.domElement);
@@ -95,6 +95,15 @@ export default class HoliCard {
         console.error("An error happened", error);
       }
     );
+  }
+
+  rotateFace(direction, idx) {
+    this.isRotating = true;
+    this.currentRotationStep =
+      this.rotationSpeed * (direction === "left" ? -1 : 1);
+    this.totalRotation = 0; // Reset total rotation
+    this.targetRotation = Math.PI / 2; // 90 degrees in radians
+    this.currentSection = this.objects.cubeGroup.children[idx];
   }
 
   render() {
