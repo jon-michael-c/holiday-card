@@ -1,14 +1,17 @@
 import { Clock } from "three";
 import { updateSnow } from "../components/snow";
 import { Vector3 } from "three";
+import TWEEN from "tween";
+
 
 const clock = new Clock();
 
 class Loop {
-  constructor(camera, scene, renderer) {
+  constructor(camera, scene, renderer, objects) {
     this.camera = camera;
     this.scene = scene;
     this.renderer = renderer;
+    this.objects = objects;
     this.updatables = [];
   }
 
@@ -17,8 +20,14 @@ class Loop {
       // tell every animated object to tick forward one frame
       this.tick();
       this.renderer.toneMappingExposure = Math.pow(0.91, 5.0);
+      let ground = this.objects.ground.getGroup()[0];
+    ground.geometry.computeVertexNormals();
 
+
+
+      TWEEN.update();
       // render a frame
+
       this.renderer.render(this.scene, this.camera);
     });
   }

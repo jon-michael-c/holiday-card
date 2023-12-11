@@ -10,9 +10,9 @@ function createCamera() {
     1000
   );
 
-  let x = -6.38021184357724;
-  let y = 0.9546893625763959;
-  let z = -0.5398895207181251;
+  let x = 1.9160701626447745;
+  let y = 1.1710608998225753;
+  let z = 6.639914285287613;
 
   const initialPosition = new Vector3(x, y, z);
 
