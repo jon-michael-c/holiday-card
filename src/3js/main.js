@@ -114,6 +114,10 @@ export default class HoliCard {
     loop.stop();
   }
 
+  randomize() {
+    this.objects.characterCube.randomize();
+  }
+
   setupGui() {
     this.gui = new dat.GUI();
 
@@ -141,44 +145,5 @@ export default class HoliCard {
     // Add more controls as needed for other lights or properties
   }
 
-  rotateSectionSmoothly(sectionIndex, direction) {
-    const section = this.objects.cubeGroup.children[sectionIndex];
 
-    if (section.isAnimating) {
-      // Optional: Queue this rotation or handle it as needed
-      return;
-    }
-
-    section.isAnimating = true;
-
-    const rotationAmount = Math.PI / 2; // 90 degrees in radians
-    const duration = 1; // duration of the rotation in seconds
-    const rotationStep = rotationAmount / (60 * duration); // 60 frames per second times duration
-
-    let accumulatedRotation = 0; // Track the total rotation applied
-
-    function animate() {
-      requestAnimationFrame(animate);
-
-      if (direction === "right") {
-        section.rotation.y += rotationStep;
-        accumulatedRotation += rotationStep;
-      } else {
-        // rotating left
-        section.rotation.y -= rotationStep;
-        accumulatedRotation += rotationStep;
-      }
-
-      if (accumulatedRotation >= rotationAmount) {
-        section.rotation.y =
-          direction === "right"
-            ? section.rotation.y + (rotationAmount - accumulatedRotation)
-            : section.rotation.y - (rotationAmount - accumulatedRotation); // Adjust for any remaining rotation
-        section.isAnimating = false; // Reset the flag
-        return; // Stop the animation
-      }
-    }
-
-    animate();
-  }
 }

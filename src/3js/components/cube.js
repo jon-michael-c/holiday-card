@@ -24,7 +24,7 @@ class CharacterCube {
       const loader = new TextureLoader();
       return colors.map((color, index) => {
         const texture = loader.load(textures[index]);
-        return new MeshPhongMaterial({ color: color, map: texture });
+        return new MeshPhongMaterial({ color: "white", map: texture });
       });
     }
 
