@@ -17,14 +17,17 @@ class CharacterCube {
   createCube() {
     const cubeGroup = new Group();
     const sectionSize = 2; // Size of each section
-    const sectionHeight = 1; // Height of each section
+    let sectionHeight = 1; // Height of each section
 
     // Function to create an array of materials with different textures for each face
     function createMaterialsForSection(colors, textures) {
       const loader = new TextureLoader();
       return colors.map((color, index) => {
+          if (index === 2 || index === 3) {
+      return new MeshPhongMaterial({  transparent: true, opacity: 0 });
+    }
         const texture = loader.load(textures[index]);
-        return new MeshPhongMaterial({ color: "white", map: texture });
+        return new MeshPhongMaterial({ color: "white", map: texture , transparent: true});
       });
     }
 
@@ -82,17 +85,28 @@ class CharacterCube {
       // ... add more textures for more sections
     ];
 
-    // Create and position each section
-    for (let i = 0; i < sectionColors.length; i++) {
-      const geometry = new BoxGeometry(sectionSize, sectionHeight, sectionSize);
-      const materials = createMaterialsForSection(sectionColors[i], sectionTextures[i]);
-      const section = new Mesh(geometry, materials);
-      section.position.y = (i - 1.5) * sectionHeight;
-      cubeGroup.add(section); // Add to group
-    }
+    let cumulativeHeight = 0;
+for (let i = 0; i < sectionColors.length; i++) {
+  let sectionHeight;
+  if (i == 0) {
+    sectionHeight = 1.35;
+  } else if (i == 1) {
+    sectionHeight = 1;
+  } else if (i == 2) {
+    sectionHeight = 0.75;
+  } else if (i == 3) {
+    sectionHeight = 0.8;
+  }
 
+  let geometry = new BoxGeometry(sectionSize, sectionHeight, sectionSize);
+  const materials = createMaterialsForSection(sectionColors[i], sectionTextures[i]);
+  const section = new Mesh(geometry, materials);
+  section.position.y = cumulativeHeight + sectionHeight / 2; // Adjust y-position based on cumulative height
+  cumulativeHeight += sectionHeight; // Update cumulative height
+  cubeGroup.add(section); // Add to group
+}
 
-    return [cubeGroup];
+return [cubeGroup]
   }
 
   randomize() {
@@ -103,11 +117,11 @@ class CharacterCube {
 
       // Create a new tween for the rotation
       new Tween(section.rotation)
-      .to({ y: randomRotation }, 1000) // Rotate to the random rotation over 1 second
-      .easing(easing) // Use the custom Bezier easing function
-      .start(); // Start// Start the tween
+        .to({ y: randomRotation }, 1000) // Rotate to the random rotation over 1 second
+        .easing(easing) // Use the custom Bezier easing function
+        .start(); // Start// Start the tween
     });
-  } 
+  }
 }
 
 export { CharacterCube };

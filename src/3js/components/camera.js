@@ -10,13 +10,15 @@ function createCamera() {
     1000
   );
 
-  let x = 1.9160701626447745;
-  let y = 1.1710608998225753;
-  let z = 6.639914285287613;
+  let x = 0.7616290622580943;
+  let y = 1.8025865873117022;
+  let z = 4.371748338294882;
 
   const initialPosition = new Vector3(x, y, z);
 
+camera.lookAt(new Vector3(15, 3, 5))
   camera.position.copy(initialPosition);
+
 
   return camera;
 }
