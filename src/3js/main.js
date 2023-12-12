@@ -69,7 +69,6 @@ export default class HoliCard {
     //objects.randomObjects = createRandomObjects();
     //objects.trees = createTrees();
     objects.snow = new snowSystem(200);
-    objects.background = new Background();
 
     // Creating Object Array
     Object.keys(objects).forEach((key) => {
