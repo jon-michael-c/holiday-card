@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./dist/css/styles.css" />
+    <link rel="stylesheet" href="./dist/main.css" />
 
     <title>Character Creator</title>
   </head>
@@ -15,7 +15,33 @@
       <div id="loader"></div>
     </div>
     <div id="controlPanel">
-      <button class="btn randomize" onclick="card.randomize()">RANDOMIZE!</button>
+      <button class="btn randomize" onclick="card.randomize()">
+        RANDOMIZE!
+      </button>
+    </div>
+    <div class="audio-control">
+      <div class="container audio-btn sound-mute">
+        <div class="unmuted toggle-sound" href="#">
+          <div class="tooltip--left sound" data-tooltip="Turn On/Off Sound">
+            <div class="sound--icon fa fa-volume-off">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="32"
+                viewBox="0 0 256 512"
+              >
+                <path
+                  fill="#ffffff"
+                  d="m215 71l-89 89H24a24 24 0 0 0-24 24v144a24 24 0 0 0 24 24h102.06L215 441c15 15 41 4.47 41-17V88c0-21.47-26-32-41-17z"
+                />
+              </svg>
+            </div>
+            <div class="sound--wave sound--wave_one"></div>
+            <div class="sound--wave sound--wave_two"></div>
+            <div class="sound--wave sound--wave_three"></div>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
   <script src="https://cdn.jsdelivr.net/npm/dat.gui@0.7.6/build/dat.gui.min.js"></script>
