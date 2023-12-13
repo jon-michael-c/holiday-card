@@ -1,12 +1,17 @@
 // Stolen from: https://codepen.io/giannisrig/pen/RYJPzb
-
-.audio-btn.container {
+.audio-control {
+  position: relative;
+  height: 100%;
+  z-index: 9999;
+}
+.audio-btn {
   position: fixed;
   width: 55px;
   height: 55px;
   left: 1rem;
   bottom: 1rem;
   opacity: 0.75;
+  z-index: 50;
 }
 
 .toggle-sound {

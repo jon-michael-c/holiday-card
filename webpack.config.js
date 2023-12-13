@@ -20,7 +20,13 @@ module.exports = {
         use: [
           MiniCssExtractPlugin.loader, // Extracts CSS into separate files
           "css-loader", // Translates CSS into CommonJS
-          "sass-loader", // Compiles Sass to CSS
+          "resolve-url-loader", // Resolves URLs in CSS
+          {
+            loader: "sass-loader",
+            options: {
+              sourceMap: true, // Required for resolve-url-loader to work properly
+            },
+          },
         ],
       },
       {

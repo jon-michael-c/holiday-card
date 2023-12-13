@@ -32,13 +32,19 @@
 
     "css-minimizer-webpack-plugin": "^5.0.1",
 
+    "file-loader": "^6.2.0",
+
     "mini-css-extract-plugin": "^2.7.6",
+
+    "resolve-url-loader": "^5.0.0",
 
     "sass": "^1.69.5",
 
     "sass-loader": "^13.3.2",
 
     "style-loader": "^3.3.3",
+
+    "url-loader": "^4.1.1",
 
     "webpack-dev-server": "^4.15.1"
 
