@@ -11,11 +11,11 @@ import { Resizer } from "./systems/Resizer";
 import { createRandomObjects, createTrees } from "./components/objects";
 import { createControls } from "./systems/controls";
 import snowSystem from "./components/snow";
-import { Ground} from "./components/ground";
+import { Ground } from "./components/ground";
 import { LoadingManager } from "three";
 import { Background } from "./components/background";
 import { TextureLoader } from "three";
-
+import { AudioControl } from "./systems/AudioControl";
 
 let camera;
 let renderer;
@@ -59,7 +59,6 @@ export default class HoliCard {
       }
     );
 
-
     // Loading Objects
     const controls = createControls(camera, container);
 
@@ -73,7 +72,7 @@ export default class HoliCard {
     // Creating Object Array
     Object.keys(objects).forEach((key) => {
       let obj = objects[key].getGroup();
-      console.log(obj)
+      console.log(obj);
 
       for (let item of obj) {
         scene.add(item);
@@ -97,6 +96,15 @@ export default class HoliCard {
     );
 
     objects.camera = camera;
+
+    // Setup Audio
+    this.audio = new AudioControl("../src/3js/music/holiday_card.mp3");
+    const audioBtn = document.querySelector(".audio-btn");
+
+    audioBtn.addEventListener("click", () => {
+      this.audio.toggle();
+      audioBtn.classList.toggle("sound-mute");
+    });
   }
 
   render() {
@@ -143,6 +151,4 @@ export default class HoliCard {
 
     // Add more controls as needed for other lights or properties
   }
-
-
 }
