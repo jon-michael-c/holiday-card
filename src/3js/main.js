@@ -2,8 +2,8 @@ import * as dat from "dat.gui";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { ColladaLoader } from "three/examples/jsm/loaders/ColladaLoader";
 import { createCamera } from "./components/camera";
-import { createCube, rotateFace } from "./components/cube";
-import { createLights } from "./components/lights";
+import { CharacterCube, createCube, rotateFace } from "./components/cube";
+import { LightSetup, createLights } from "./components/lights";
 import { createRenderer } from "./systems/renderer";
 import { createScene } from "./components/scene";
 import { Loop } from "./systems/Loop";
@@ -11,73 +11,36 @@ import { Resizer } from "./systems/Resizer";
 import { createRandomObjects, createTrees } from "./components/objects";
 import { createControls } from "./systems/controls";
 import snowSystem from "./components/snow";
-import { createSnowyGround } from "./components/ground";
+import { Ground} from "./components/ground";
 import { LoadingManager } from "three";
-import { Vector3 } from "three";
+import { Background } from "./components/background";
+import { TextureLoader } from "three";
+
 
 let camera;
 let renderer;
 let scene;
 let loop;
 let objects = {};
-let startTime = null;
+let textures = [];
+let models = [];
 
 export default class HoliCard {
   constructor(container, window) {
-    this.isRotating = false;
-    this.rotationSpeed = 0.05; // Adjust this for smoother rotation
-    this.totalRotation = 0;
-    this.targetRotation = Math.PI / 2; // 90 degrees in radians
-    this.currentSection = null;
     this.objects = objects;
 
+    // Scene Setup
     renderer = createRenderer(container, window);
     camera = createCamera(container);
     scene = createScene();
-    loop = new Loop(camera, scene, renderer);
     //container.append(renderer.domElement);
 
+    // Loading Textures and Models
     const loadingManager = new LoadingManager();
     loadingManager.onLoad = () => {
       const loadingScreen = document.getElementById("preloader");
       loadingScreen.style.display = "none";
     };
-
-    const controls = createControls(camera, container);
-    const snow = new snowSystem(200);
-    objects.cubeGroup = createCube();
-    objects.lights = createLights();
-    objects.ground = createSnowyGround();
-    objects.randomObjects = createRandomObjects();
-    objects.trees = createTrees();
-    objects.snow = snow.getSnow();
-
-    Object.keys(objects).forEach((key) => {
-      let obj = objects[key];
-      if (Array.isArray(obj)) {
-        for (let item of obj) {
-          scene.add(item);
-        }
-      } else {
-        scene.add(obj);
-      }
-    });
-
-    loop.updatables.push(controls);
-    loop.updatables.push(snow);
-
-    const resizer = new Resizer(container, camera, renderer);
-    window.addEventListener(
-      "resize",
-      function () {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-      },
-      false
-    );
-
-    objects.camera = camera;
 
     const loader = new GLTFLoader(loadingManager);
     loader.load(
@@ -95,15 +58,45 @@ export default class HoliCard {
         console.error("An error happened", error);
       }
     );
-  }
 
-  rotateFace(direction, idx) {
-    this.isRotating = true;
-    this.currentRotationStep =
-      this.rotationSpeed * (direction === "left" ? -1 : 1);
-    this.totalRotation = 0; // Reset total rotation
-    this.targetRotation = Math.PI / 2; // 90 degrees in radians
-    this.currentSection = this.objects.cubeGroup.children[idx];
+
+    // Loading Objects
+    const controls = createControls(camera, container);
+
+    objects.lights = new LightSetup();
+    objects.characterCube = new CharacterCube("");
+    objects.ground = new Ground();
+    //objects.randomObjects = createRandomObjects();
+    //objects.trees = createTrees();
+    objects.snow = new snowSystem(200);
+
+    // Creating Object Array
+    Object.keys(objects).forEach((key) => {
+      let obj = objects[key].getGroup();
+      console.log(obj)
+
+      for (let item of obj) {
+        scene.add(item);
+      }
+    });
+
+    loop = new Loop(camera, scene, renderer, objects);
+    // All Updatables
+    loop.updatables.push(controls);
+    loop.updatables.push(objects.snow);
+
+    const resizer = new Resizer(container, camera, renderer);
+    window.addEventListener(
+      "resize",
+      function () {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      },
+      false
+    );
+
+    objects.camera = camera;
   }
 
   render() {
@@ -120,33 +113,8 @@ export default class HoliCard {
     loop.stop();
   }
 
-  animateCamera(time) {
-    function easeInOutQuad(t) {
-      return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
-    }
-
-    const duration = 1000;
-    const initialPosition = new Vector3(-32.411, 9.651, 12.487);
-    const targetPosition = new Vector3(-6.022, 2.278, 2.767);
-
-    console.log(time);
-    if (!startTime) startTime = time;
-    const elapsedTime = time - startTime;
-
-    // Calculate the progress as a value between 0 and 1
-    const progress = easeInOutQuad(Math.min(elapsedTime / duration, 1));
-    console.log(progress);
-
-    console.log(camera.position);
-    // Interpolate the camera position between the initial and target positions
-    camera.position.lerpVectors(initialPosition, targetPosition, progress);
-    console.log(camera.position);
-
-    // Continue the animation or stop if we've reached the target
-    if (progress < 1) {
-      requestAnimationFrame(card.animateCamera);
-    }
-    renderer.render(scene, camera);
+  randomize() {
+    this.objects.characterCube.randomize();
   }
 
   setupGui() {
@@ -175,4 +143,6 @@ export default class HoliCard {
 
     // Add more controls as needed for other lights or properties
   }
+
+
 }

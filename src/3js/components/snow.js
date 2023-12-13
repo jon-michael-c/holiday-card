@@ -30,15 +30,15 @@ export default class snowSystem {
 
     const snow = new Points(geometry, material);
 
-    this.snow = snow;
+    this.snow = [snow];
   }
 
-  getSnow() {
+  getGroup() {
     return this.snow;
   }
 
   tick() {
-    const vertices = this.snow.geometry.attributes.position.array;
+    const vertices = this.snow[0].geometry.attributes.position.array;
     for (let i = 0; i < vertices.length; i += 3) {
       // Vertical movement (Y-axis)
       vertices[i + 1] -= Math.random() * 0.2 + 0.2; // Variable speed
@@ -54,7 +54,7 @@ export default class snowSystem {
         vertices[i + 2] = Math.random() * 200 - 100;
       }
     }
-    this.snow.geometry.attributes.position.needsUpdate = true;
+    this.snow[0].geometry.attributes.position.needsUpdate = true;
   }
 }
 

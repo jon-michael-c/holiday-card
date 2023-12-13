@@ -15,26 +15,7 @@
       <div id="loader"></div>
     </div>
     <div id="controlPanel">
-      <div>
-        <p>Section 1:</p>
-        <button onClick="card.rotate('left', 3);">b</button>
-        <button onClick="card.rotate('right', 3);">f</button>
-      </div>
-      <div>
-        <p>Section 1:</p>
-        <button onClick="card.rotate('left', 2);">b</button>
-        <button onClick="card.rotate('right', 2);">f</button>
-      </div>
-      <div>
-        <p>Section 1:</p>
-        <button onClick="card.rotate('left', 1);">b</button>
-        <button onClick="card.rotate('right', 1);">f</button>
-      </div>
-      <div>
-        <p>Section 1:</p>
-        <button onClick="card.rotate('left', 0);">b</button>
-        <button onClick="card.rotate('right', 0);">f</button>
-      </div>
+      <button class="btn randomize" onclick="card.randomize()">RANDOMIZE!</button>
     </div>
   </body>
   <script src="https://cdn.jsdelivr.net/npm/dat.gui@0.7.6/build/dat.gui.min.js"></script>
