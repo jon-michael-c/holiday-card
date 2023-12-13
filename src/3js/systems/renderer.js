@@ -1,4 +1,11 @@
-import { VSMShadowMap, WebGLRenderer, sRGBEncoding } from "three";
+import {
+  ColorManagement,
+  ACESFilmicToneMapping,
+  SRGBColorSpace,
+  VSMShadowMap,
+  WebGLRenderer,
+  sRGBEncoding,
+} from "three";
 
 function createRenderer(container, window) {
   const renderer = new WebGLRenderer({
@@ -11,9 +18,11 @@ function createRenderer(container, window) {
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(container.clientWidth, container.clientHeight);
   renderer.setClearColor(0xffffff, 0);
-  renderer.outputEncoding = sRGBEncoding;
+  renderer.outputColorSpace = SRGBColorSpace;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = VSMShadowMap;
+  ColorManagement.enabled = true;
+  renderer.outputEncoding = SRGBColorSpace;
 
   return renderer;
 }
