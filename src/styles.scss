@@ -8,8 +8,8 @@ body {
   overflow: hidden;
   background-color: white;
   position: relative;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
 }
 
 canvas {
@@ -109,4 +109,15 @@ canvas {
     -ms-transform: rotate(360deg);
     transform: rotate(360deg);
   }
+}
+
+.screenshot {
+  position: absolute;
+  z-index: 500;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  object-fit: cover;
+  object-position: center center;
 }
