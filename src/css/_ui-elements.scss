@@ -50,12 +50,11 @@ $button-bg: #5440da;
     background-color: #5440da;
     border-radius: 50%;
     cursor: pointer;
+    border: 1px solid #dbd8f0;
+    background-image: radial-gradient(75% 50% at 50% 0%, #f4feff, transparent), radial-gradient(75% 35% at 50% 80%, #2D1D96, transparent);
+    box-shadow: inset 0 -2px 4px 1px rgba(17, 110, 231, 0.6), inset 0 -4px 4px 1px #2d1d9692, inset 0 0 2px 1px rgba(255, 255, 255, 0.2), 0 1px 4px 1px rgba(17, 110, 231, 0.2), 0 1px 4px 1px rgba(0, 0, 0, 0.1);
 
     &.btn2 {
-      border: 1px solid #dbd8f0;
-      background-image: radial-gradient(75% 50% at 50% 0%, #f4feff, transparent), radial-gradient(75% 35% at 50% 80%, #2D1D96, transparent);
-      box-shadow: inset 0 -2px 4px 1px rgba(17, 110, 231, 0.6), inset 0 -4px 4px 1px #2d1d9692, inset 0 0 2px 1px rgba(255, 255, 255, 0.2), 0 1px 4px 1px rgba(17, 110, 231, 0.2), 0 1px 4px 1px rgba(0, 0, 0, 0.1);
-
       img {
         transform: rotate(0deg);
       }
@@ -68,21 +67,6 @@ $button-bg: #5440da;
     }
 
     &.btn3 {
-      background: radial-gradient(circle at 50% 120%, #7564E3, #5440da 30%, #5440da 80%, #2D1D96 100%);
-    
-      &:before {
-        content: "";
-        position: absolute;
-        top: 1%;
-        left: 5%;
-        width: 90%;
-        height: 90%;
-        border-radius: 50%;
-        background: radial-gradient(circle at 50% 0px, #ffffff, rgba(255, 255, 255, 0) 58%);
-        -webkit-filter: blur(5px);
-        z-index: 2;
-      }
-
       img {
         transform: scale(1);
       }
