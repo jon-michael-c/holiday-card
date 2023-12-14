@@ -8,6 +8,7 @@ import {
 } from "three";
 import { TextureLoader } from "three";
 import { Tween, Easing } from "tween";
+import { loadingManager } from "../systems/ProgressBar";
 
 class CharacterCube {
   constructor(textures) {
@@ -25,7 +26,7 @@ class CharacterCube {
     let sectionHeight = 1; // Height of each section
 
     function createMaterialsForSection(colors, textures) {
-      const loader = new TextureLoader();
+      const loader = new TextureLoader(loadingManager);
       return colors.map((color, index) => {
         if (index === 2 || index === 3) {
           return new MeshBasicMaterial({

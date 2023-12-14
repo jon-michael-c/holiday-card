@@ -12,11 +12,10 @@ import { createRandomObjects, createTrees } from "./components/objects";
 import { createControls } from "./systems/controls";
 import snowSystem from "./components/snow";
 import { Ground } from "./components/ground";
-import { LoadingManager } from "three";
 import { Background } from "./components/background";
 import { TextureLoader } from "three";
 import { AudioControl } from "./systems/AudioControl";
-import { ProgressBar } from "./systems/ProgressBar";
+import { ProgressBar, loadingManager } from "./systems/ProgressBar";
 
 let camera;
 let renderer;
@@ -38,9 +37,9 @@ export default class HoliCard {
 
     this.progress = new ProgressBar(document.querySelector(".progress"));
     // Loading Textures and Models
-    const loadingManager = new LoadingManager();
     loadingManager.onProgress = (url, itemsLoaded, itemsTotal) => {
       const progressPercentage = itemsLoaded / itemsTotal;
+      console.log(progressPercentage);
       this.progress.updateProgress(progressPercentage);
     };
 
