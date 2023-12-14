@@ -17,6 +17,9 @@ class Background {
   getGroup() {
     return this.group;
   }
+  getRandomXPosition(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
 
   createSkyBox() {
     const loader = new TextureLoader(loadingManager);
@@ -28,10 +31,13 @@ class Background {
       map: texture,
     });
 
+
     const skybox = new Mesh(geometry, material);
-    skybox.position.set(200, 200, -600);
+    skybox.position.set(this.getRandomXPosition(0,250), 200, -600);
     return [skybox];
   }
+
+    
 
   randomize() {
     new Tween(this.group[0].position)
