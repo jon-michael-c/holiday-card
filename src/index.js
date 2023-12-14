@@ -7,4 +7,5 @@ window.addEventListener("load", () => {
   let container = document.getElementById("3js");
   window.card = new HoliCard(container, window);
   window.card.start();
+  document.querySelectorAll(".star")[1].classList.add("active");
 });

@@ -6,6 +6,7 @@ import {
   MeshBasicMaterial,
 } from "three";
 import TWEEN, { Tween } from "tween";
+import { loadingManager } from "../systems/ProgressBar";
 
 class Background {
   constructor(texture) {
@@ -18,7 +19,7 @@ class Background {
   }
 
   createSkyBox() {
-    const loader = new TextureLoader();
+    const loader = new TextureLoader(loadingManager);
     const texture = loader.load(
       "../src/3js/textures/background/background.png"
     );
