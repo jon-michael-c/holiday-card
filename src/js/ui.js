@@ -9,6 +9,7 @@ function takeScreenshot() {
   html2canvas(document.body).then((canvas) => {
     let img = document.createElement("img");
     img.src = canvas.toDataURL();
+    img.style.zIndex = 1000;
 
     document.body.appendChild(img);
     img.classList.add("screenshot");
@@ -22,6 +23,8 @@ window.download = function download() {
     // You can then download it or display it on the page
     // For example, to download it:
     var a = document.createElement("a");
+    a.style.display = "none";
+    a.style.zIndex = 1000;
     a.href = image;
     a.download = "screenshot.png";
     a.click();
@@ -37,11 +40,9 @@ function toggleModal() {
     randomHappy.classList.toggle("active");
   }, 1000);
 
-  /*
   setTimeout(() => {
     takeScreenshot();
   }, 500);
-  */
 }
 
 function windowOnClick(event) {

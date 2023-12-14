@@ -34,7 +34,7 @@ class Background {
     });
 
     const skybox = new Mesh(geometry, material);
-    skybox.position.set(this.getRandomXPosition(0, 250), 200, -600);
+    skybox.position.set(this.getRandomXPosition(250, 1500), 150, -1700);
     return [skybox];
   }
 

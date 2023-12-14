@@ -92,13 +92,13 @@ $button-bg: #5440da;
   /* background-color: #000;  */
   color: #fff;
   transition: all 1s;
-  z-index: 9999999999;
+  z-index: -9999999999;
 }
 .modal-bg {
   background-image: url("../assets/images/bg.png");
   background-size: contain;
   position: absolute;
-  z-index: -1;
+  z-index: -9999;
   width: 100%;
   height: 100%;
   clip-path: polygon(

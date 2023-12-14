@@ -4,15 +4,15 @@ import { PerspectiveCamera } from "three";
 
 function createCamera() {
   const camera = new PerspectiveCamera(
-    75,
+    20,
     window.innerWidth / window.innerHeight,
     0.1,
-    1000
+    2000
   );
 
-  let x = 2.3180606289003647;
-  let y = 2.0114857025011834;
-  let z = 5.478620885647863;
+  let x = 0.9275365477973228;
+  let y = 1.4568303550176653;
+  let z = 18.35215336298731;
   let rx = -1.13897005061520265;
   let ry = -0.24983408110353236;
   let rz = -0.0345685359348593;
