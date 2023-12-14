@@ -121,7 +121,7 @@ class CharacterCube {
       cubeGroup.add(section); // Add to group
     }
 
-    cubeGroup.rotation.y = 0.15; // Set rotation around the y-axis
+    cubeGroup.rotation.y = 0.26; // Set rotation around the y-axis
 
     return [cubeGroup];
   }

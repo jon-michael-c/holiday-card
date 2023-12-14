@@ -27,7 +27,7 @@
   border-radius: 50%;
   cursor: pointer;
   z-index: 99;
-  animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+  animation: pulse 1.25s forwards cubic-bezier(0.66, 0, 0, 1);
   box-shadow: 0 0 0 0 #f06292;
 }
 .toggle-sound.sound-mute {

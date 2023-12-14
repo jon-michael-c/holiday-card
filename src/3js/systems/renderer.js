@@ -13,6 +13,7 @@ function createRenderer(container, window) {
     antialias: true, // Enable anti-aliasing
     powerPreference: "high-performance",
     alpha: true,
+    preserveDrawingBuffer: true,
   });
 
   renderer.setSize(window.innerWidth, window.innerHeight);

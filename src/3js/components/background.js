@@ -18,26 +18,25 @@ class Background {
     return this.group;
   }
   getRandomXPosition(min, max) {
-      return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
 
   createSkyBox() {
     const loader = new TextureLoader(loadingManager);
     const texture = loader.load(
       "../src/3js/textures/background/background.png"
     );
-    const geometry = new PlaneGeometry(2000, 540); // Adjust size as needed
+    let x = 5542;
+    let y = 1080;
+    const geometry = new PlaneGeometry(x / 2, y / 2); // Adjust size as needed
     const material = new MeshBasicMaterial({
       map: texture,
     });
 
-
     const skybox = new Mesh(geometry, material);
-    skybox.position.set(this.getRandomXPosition(0,250), 200, -600);
+    skybox.position.set(this.getRandomXPosition(0, 250), 200, -600);
     return [skybox];
   }
-
-    
 
   randomize() {
     new Tween(this.group[0].position)
