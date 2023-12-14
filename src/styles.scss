@@ -1,8 +1,12 @@
+@import "./css/audioBtn";
+@import "./css/ui-elements";
+
 body {
   margin: 0;
   padding: 0;
   overflow: hidden;
   background-color: white;
+  position: relative;
 }
 
 canvas {
@@ -24,7 +28,6 @@ canvas {
   padding: 1rem;
 
   .btn {
-    
     font-size: 1.5rem;
     font-weight: 600;
     padding: 25px 50px;

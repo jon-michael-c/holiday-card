@@ -1,8 +1,8 @@
+import { MeshBasicMaterial } from "three";
 import { Texture, PlaneGeometry, MeshPhongMaterial, Mesh } from "three";
 import { Tween } from "tween";
 
 class Ground {
-
   randomOffsetX = Math.random() * 1000;
   randomOffsetY = Math.random() * 1000;
 
@@ -16,29 +16,27 @@ class Ground {
 
   randomize() {
     // Get the ground's geometry
-  let geometry = this.group[0].geometry;
+    let geometry = this.group[0].geometry;
 
-  // Get the vertices of the geometry
-  let vertices = geometry.attributes.position.array;
+    // Get the vertices of the geometry
+    let vertices = geometry.attributes.position.array;
 
-  // Calculate the new heights
-  for (let i = 0; i < vertices.length; i += 3) {
-    // Use a new random offset for the noise function
-    this.randomOffsetX = Math.random() * 1000;
-    this.randomOffsetY = Math.random() * 1000;
+    // Calculate the new heights
+    for (let i = 0; i < vertices.length; i += 3) {
+      // Use a new random offset for the noise function
+      this.randomOffsetX = Math.random() * 1000;
+      this.randomOffsetY = Math.random() * 1000;
 
-    // Calculate the new height
-    let newHeight = this.combinedNoise(vertices[i], vertices[i + 1], 30); // Max height 30
+      // Calculate the new height
+      let newHeight = this.combinedNoise(vertices[i], vertices[i + 1], 30); // Max height 30
 
-
-    // Create a tween for the vertex
-    new Tween({ z: vertices[i + 2] })
-      .to({ z: newHeight }, 1000) // Transition over 1 second
-      .onUpdate(function (object) {
-        vertices[i + 2] = object.z;
-      })
-      .start();
-  
+      // Create a tween for the vertex
+      new Tween({ z: vertices[i + 2] })
+        .to({ z: newHeight }, 1000) // Transition over 1 second
+        .onUpdate(function (object) {
+          vertices[i + 2] = object.z;
+        })
+        .start();
     }
   }
 
@@ -55,7 +53,7 @@ class Ground {
     for (let i = 0; i < vertices.length; i += 3) {
       const distance = Math.sqrt(
         Math.pow(vertices[i] - centerX, 2) +
-        Math.pow(vertices[i + 1] - centerY, 2)
+          Math.pow(vertices[i + 1] - centerY, 2)
       );
 
       if (distance > flattenRadius) {
@@ -75,7 +73,7 @@ class Ground {
     geometry.normalsNeedUpdate = true;
     geometry.computeVertexNormals();
 
-    let material = new MeshPhongMaterial({
+    let material = new MeshBasicMaterial({
       color: 0xffffff,
       shininess: 5,
       bumpScale: 3.025,
@@ -95,7 +93,8 @@ class Ground {
     // Adding randomness
 
     return (
-      Math.sin((x + this.randomOffsetX) / 45) * Math.cos((y + this.randomOffsetY) / 45)
+      Math.sin((x + this.randomOffsetX) / 45) *
+      Math.cos((y + this.randomOffsetY) / 45)
     );
   }
 
@@ -122,7 +121,7 @@ class Ground {
       pixels[i++] =
         pixels[i++] =
         pixels[i++] =
-        Math.sin(i * i * i + (i / n) * Math.PI) * intensity;
+          Math.sin(i * i * i + (i / n) * Math.PI) * intensity;
       pixels[i++] = 255;
     }
     ctx.putImageData(imageData, 0, 0);
@@ -159,7 +158,6 @@ class Ground {
     // Ensure the noise value doesn't go below the minimum height
     return Math.max(scaledNoise, minHeight);
   }
-
 }
 
 export { Ground };
