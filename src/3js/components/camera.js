@@ -10,16 +10,27 @@ function createCamera() {
     1000
   );
 
-  let x = 0.7616290622580943;
-  let y = 1.8025865873117022;
-  let z = 4.371748338294882;
+  let x = 1.7484719675060278;
+  let y = 1.734177728305474;
+  let z = 5.46968619699696;
+  let rx = -1.13897005061520265;
+  let ry = -0.24983408110353236;
+  let rz = -0.0345685359348593;
+  let zoomValue = 1.0;
 
   const initialPosition = new Vector3(x, y, z);
+  const degreesToRadians = (degrees) => degrees * (Math.PI / 180);
+  camera.rotation.set(
+    degreesToRadians(rx),
+    degreesToRadians(ry),
+    degreesToRadians(rz)
+  );
+  camera.zoom = zoomValue;
 
-camera.lookAt(new Vector3(15, 3, 5))
-  camera.position.copy(initialPosition);
+  camera.position.set(x, y, z);
+  camera.aspect = window.innerWidth / window.innerHeight;
 
-
+  camera.updateProjectionMatrix();
   return camera;
 }
 

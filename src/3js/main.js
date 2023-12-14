@@ -60,8 +60,9 @@ export default class HoliCard {
     );
 
     // Loading Objects
-    const controls = createControls(camera, container);
+    this.controls = createControls(camera, container);
 
+    objects.background = new Background();
     objects.lights = new LightSetup();
     objects.characterCube = new CharacterCube("");
     objects.ground = new Ground();
@@ -81,10 +82,11 @@ export default class HoliCard {
 
     loop = new Loop(camera, scene, renderer, objects);
     // All Updatables
-    loop.updatables.push(controls);
+    loop.updatables.push(this.controls);
     loop.updatables.push(objects.snow);
 
     const resizer = new Resizer(container, camera, renderer);
+
     window.addEventListener(
       "resize",
       function () {
@@ -96,6 +98,7 @@ export default class HoliCard {
     );
 
     objects.camera = camera;
+    camera.lookAt(objects.characterCube.getGroup()[0].position);
 
     // Setup Audio
     this.audio = new AudioControl("../src/3js/music/holiday_card.mp3");

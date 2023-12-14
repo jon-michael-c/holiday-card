@@ -15,8 +15,8 @@ function createRenderer(container, window) {
     alpha: true,
   });
 
+  renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(window.devicePixelRatio);
-  renderer.setSize(container.clientWidth, container.clientHeight);
   renderer.setClearColor(0xffffff, 0);
   renderer.outputColorSpace = SRGBColorSpace;
   renderer.shadowMap.enabled = true;
