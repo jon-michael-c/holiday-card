@@ -72,7 +72,7 @@ class Ground {
         }
         // Using a more complex noise function for varied hill heights
         vertices[i + 2] =
-          this.combinedNoise(vertices[i], vertices[i + 1], 10) * heightFactor; // Max height 30
+          this.combinedNoise(vertices[i], vertices[i + 1], 5.6) * heightFactor; // Max height 30
       } else {
         vertices[i + 2] = 0; // Flat area
       }

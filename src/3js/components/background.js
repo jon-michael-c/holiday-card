@@ -39,7 +39,7 @@ class Background {
   }
 
   randomize() {
-    const easing = Easing.Elastic.InOut;
+    const easing = Easing.Quadratic.InOut;
     new Tween(this.group[0].position)
       .to(
         {
