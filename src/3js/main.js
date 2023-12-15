@@ -70,6 +70,7 @@ export default class HoliCard {
 
     // Loading Objects
     this.controls = createControls(camera, container);
+    this.controls.enabled = false;
 
     objects.background = new Background();
     objects.lights = new LightSetup();
