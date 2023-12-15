@@ -214,9 +214,9 @@ $button-bg: #5440da;
       .happy {
         position: absolute;
         top: -100px;
-        left: 0;
+        left: -100px;
         object-fit: cover;
-        width: 100%;
+        width: 145%;
         height: 100%;
         z-index: 9999;
         overflow: visible;
@@ -229,6 +229,8 @@ $button-bg: #5440da;
 
         @media screen and (max-width: 1000px) {
           top: 14%;
+          left: 0%;
+          width: 100%;
         }
       }
     }
