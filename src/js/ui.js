@@ -31,6 +31,10 @@ window.download = function download() {
   });
 };
 function toggleModal() {
+  if(card.mobile) {
+
+  card.mobileMove();
+  }
   let happies = document.querySelectorAll(".happy");
   // Get random element from happies
   let randomHappy = happies[Math.floor(Math.random() * happies.length)];
@@ -39,6 +43,7 @@ function toggleModal() {
     buttons.classList.toggle("close");
     randomHappy.classList.toggle("active");
   }, 500);
+  
 
   /*
   setTimeout(() => {
