@@ -5,7 +5,7 @@ class AudioControl {
     this.audioContainer = document.querySelector(".audio-control");
     // Create Audio Element in AudioContainer
     this.audioContainer.innerHTML += `
-      <audio id="audio" src="${this.src}"></audio>
+      <audio id="audio" src="${this.src}"  autoplay></audio>
     `;
     this.audio = this.audioContainer.querySelector("audio");
     this.audio.src = this.src;
@@ -34,6 +34,11 @@ class AudioControl {
 
   toggle() {
     this.audio.paused ? this.play() : this.pause();
+    this.toggleMute();
+  }
+
+  toggleMute() {
+    this.audio.muted = !this.audio.muted;
   }
 }
 

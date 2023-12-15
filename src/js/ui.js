@@ -64,6 +64,7 @@ function getRandomImage() {
   let randomImage = images[Math.floor(Math.random() * images.length)];
   return randomImage;
 }
+modal.addEventListener("click", toggleModal);
 
 trigger.addEventListener("click", toggleModal);
 window.addEventListener("click", windowOnClick);
