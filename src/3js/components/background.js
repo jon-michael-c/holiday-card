@@ -5,7 +5,7 @@ import {
   TextureLoader,
   MeshBasicMaterial,
 } from "three";
-import TWEEN, { Tween } from "tween";
+import TWEEN, { Easing, Tween } from "tween";
 import { loadingManager } from "../systems/ProgressBar";
 
 class Background {
@@ -34,20 +34,22 @@ class Background {
     });
 
     const skybox = new Mesh(geometry, material);
-    skybox.position.set(this.getRandomXPosition(250, 1500), 100, -1700);
+    skybox.position.set(this.getRandomXPosition(100, 450), 150, -1700);
     return [skybox];
   }
 
   randomize() {
+    const easing = Easing.Elastic.InOut;
     new Tween(this.group[0].position)
       .to(
         {
-          x: Math.random() * 100,
+          x: this.getRandomXPosition(100, 450),
         },
         1000
       )
+      .delay(500)
+      .easing(easing)
       .start();
   }
 }
-
 export { Background };

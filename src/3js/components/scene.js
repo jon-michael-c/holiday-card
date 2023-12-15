@@ -18,7 +18,7 @@ function createScene() {
   // Scene setup
   const scene = new Scene();
 
-  scene.background = new Color(0x88ccee);
+  scene.background = new Color(0xd7e9e9);
   // Create a CSS3DRenderer
   return scene;
 }

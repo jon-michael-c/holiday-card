@@ -5,7 +5,7 @@ class AudioControl {
     this.audioContainer = document.querySelector(".audio-control");
     // Create Audio Element in AudioContainer
     this.audioContainer.innerHTML += `
-      <audio id="audio" src="${this.src}"></audio>
+      <audio id="audio" src="${this.src}" autoplay playsinline></audio>
     `;
     this.audio = this.audioContainer.querySelector("audio");
     this.audio.src = this.src;
