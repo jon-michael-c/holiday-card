@@ -8,7 +8,7 @@ import { createRenderer } from "./systems/renderer";
 import { createScene } from "./components/scene";
 import { Loop } from "./systems/Loop";
 import { Resizer } from "./systems/Resizer";
-import { createRandomObjects, createTrees } from "./components/objects";
+import { createRandomObjects, createTrees, randomObjects } from "./components/objects";
 import { createControls } from "./systems/controls";
 import snowSystem from "./components/snow";
 import { Ground } from "./components/ground";
@@ -17,6 +17,7 @@ import { TextureLoader } from "three";
 import { AudioControl } from "./systems/AudioControl";
 import { ProgressBar, loadingManager } from "./systems/ProgressBar";
 import { Tween } from "tween";
+import { Vector3 } from "three";
 
 let camera;
 let renderer;
@@ -25,6 +26,7 @@ let loop;
 let objects = {};
 let textures = [];
 let models = [];
+let mobile = false;
 
 export default class HoliCard {
   constructor(container, window) {
@@ -51,7 +53,7 @@ export default class HoliCard {
 
     const loader = new GLTFLoader(loadingManager);
     loader.load(
-      "../src/3js/models/low_poly_cabin.glb",
+      "../src/3js/models/gift.gltf",
       function (gltf) {
         // This function is called when the load is completed
         //scene.add(gltf.scene);
@@ -68,12 +70,13 @@ export default class HoliCard {
 
     // Loading Objects
     this.controls = createControls(camera, container);
+    this.controls.enabled = false;
 
     objects.background = new Background();
     objects.lights = new LightSetup();
     objects.characterCube = new CharacterCube("");
     objects.ground = new Ground();
-    //objects.randomObjects = createRandomObjects();
+    objects.randomObjects = new randomObjects();
     //objects.trees = createTrees();
     objects.snow = new snowSystem(200);
 
@@ -117,6 +120,7 @@ export default class HoliCard {
     });
 
     if (window.innerWidth < 1000) {
+      this.mobile = true
       this.mobileView();
     }
   }
@@ -137,6 +141,8 @@ export default class HoliCard {
 
   randomize() {
     this.objects.characterCube.randomize();
+    this.objects.background.randomize();
+    this.objects.randomObjects.randomize();
   }
 
   setupGui() {
@@ -170,20 +176,45 @@ export default class HoliCard {
     let camera = objects.camera;
     let controls = this.controls;
 
-    let x = -0.22523875644074512;
-    let y = 2.3288688548574648;
-    let z = 24.85642614691905;
-    let rx = 0.010347330265404096;
-    let ry = 0.03927447524039436;
-    let rz = -0.33514495429318364;
+    let x =
+      0.28876068598787397;
+    let y = 0.23678319474539267;
+    let z = 13.799811142573176;
+    let rx = -0.05622855826035533;
+    let ry = 1.6344826201975486;
+    let rz = -0.5110990680069073;
 
     camera.position.set(x, y, z);
+    camera.fov = 35;
     controls.target.set(rx, ry, rz);
+    camera.updateProjectionMatrix();
+    this.objects.background.group[0].position.y = 225;
+    this.objects.background.group[0].position.z = -1000;
   }
 
   mobileMove() {
-    let dy = 0.9755705459399936;
+    let rx = -0.10658365459148963;
+    let ry = 0.19442940878080182 ;
+    let rz = -0.6180200058795579;
+    let x = 0.35653253938844454;
+    let y = 1.3870377060115116;
+    let z = 13.684200063864921;
 
-    new Tween(this.objects.camera.position).to({ y: dy }).delay(150).start();
+    let camera = this.objects.camera;
+    let controls = this.controls;
+
+    const initialPosition = camera.position.clone()
+    const targetPosition = new Vector3(10, 10, 10);
+    const duration = 1000;
+
+
+
+    //new Tween(camera.position).to({ x: x, y: y, z: z }).delay(150).start();
+
+
+
+    camera.position.set(x, y, z);
+    camera.updateProjectionMatrix();
+    controls.target.set(rx, ry, rz);
   }
 }

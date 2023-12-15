@@ -1,5 +1,5 @@
 import { MeshBasicMaterial } from "three";
-import { Texture, PlaneGeometry, MeshPhongMaterial, Mesh } from "three";
+import { Texture, PlaneGeometry, BoxGeometry, Mesh } from "three";
 import { Tween } from "tween";
 
 class Ground {
@@ -41,6 +41,14 @@ class Ground {
   }
 
   createSnowyGround() {
+  // Create a white cube
+  let cubeGeometry = new BoxGeometry(15, 5, 5);
+  let cubeMaterial = new MeshBasicMaterial({ color: 0xffffff });
+  let cube = new Mesh(cubeGeometry, cubeMaterial);
+  cube.position.set(0, -2.5, 0); // Position the cube under the ground
+  cube.receiveShadow = true;
+
+  // Add the cube to the group
     let noise = this.noiseMap(0, 0);
     let geometry = new PlaneGeometry(200, 200, 120, 120);
     let vertices = geometry.attributes.position.array;
@@ -64,7 +72,7 @@ class Ground {
         }
         // Using a more complex noise function for varied hill heights
         vertices[i + 2] =
-          this.combinedNoise(vertices[i], vertices[i + 1], 10) * heightFactor; // Max height 30
+          this.combinedNoise(vertices[i], vertices[i + 1], 5.6) * heightFactor; // Max height 30
       } else {
         vertices[i + 2] = 0; // Flat area
       }
@@ -86,7 +94,7 @@ class Ground {
     plane.receiveShadow = true;
     plane.position.y = 0;
 
-    return [plane];
+    return [plane, cube];
   }
 
   getNoise(x, y) {
