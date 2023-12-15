@@ -16,6 +16,7 @@ import { Background } from "./components/background";
 import { TextureLoader } from "three";
 import { AudioControl } from "./systems/AudioControl";
 import { ProgressBar, loadingManager } from "./systems/ProgressBar";
+import { Tween } from "tween";
 
 let camera;
 let renderer;
@@ -114,6 +115,10 @@ export default class HoliCard {
       this.audio.toggle();
       audioBtn.classList.toggle("sound-mute");
     });
+
+    if (window.innerWidth < 1000) {
+      this.mobileView();
+    }
   }
 
   render() {
@@ -159,5 +164,26 @@ export default class HoliCard {
       .name("Intensity");
 
     // Add more controls as needed for other lights or properties
+  }
+
+  mobileView() {
+    let camera = objects.camera;
+    let controls = this.controls;
+
+    let x = -0.22523875644074512;
+    let y = 2.3288688548574648;
+    let z = 24.85642614691905;
+    let rx = 0.010347330265404096;
+    let ry = 0.03927447524039436;
+    let rz = -0.33514495429318364;
+
+    camera.position.set(x, y, z);
+    controls.target.set(rx, ry, rz);
+  }
+
+  mobileMove() {
+    let dy = 0.9755705459399936;
+
+    new Tween(this.objects.camera.position).to({ y: dy }).delay(150).start();
   }
 }

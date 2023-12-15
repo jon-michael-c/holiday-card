@@ -38,11 +38,13 @@ function toggleModal() {
     modal.classList.toggle("close");
     buttons.classList.toggle("close");
     randomHappy.classList.toggle("active");
-  }, 1000);
+  }, 500);
 
+  /*
   setTimeout(() => {
     takeScreenshot();
   }, 500);
+  */
 }
 
 function windowOnClick(event) {

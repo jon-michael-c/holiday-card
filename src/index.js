@@ -14,14 +14,4 @@ window.addEventListener("load", () => {
   window.card.start();
 
   document.querySelectorAll(".star")[1].classList.add("active");
-
-  window.takeScreenshot = function takeScreenshot() {
-    html2canvas(document.body).then((canvas) => {
-      let img = document.createElement("img");
-      img.src = canvas.toDataURL();
-      img.classList.add("screenshot");
-
-      document.body.appendChild(img);
-    });
-  };
 });
