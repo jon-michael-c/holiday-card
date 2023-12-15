@@ -5,7 +5,7 @@ class AudioControl {
     this.audioContainer = document.querySelector(".audio-control");
     // Create Audio Element in AudioContainer
     this.audioContainer.innerHTML += `
-      <audio id="audio" src="${this.src}" autoplay playsinline></audio>
+      <audio id="audio" src="${this.src}"  playsinline ></audio>
     `;
     this.audio = this.audioContainer.querySelector("audio");
     this.audio.src = this.src;
@@ -25,9 +25,14 @@ class AudioControl {
   }
 
   play() {
+  if (this.audioCtx.state === 'suspended') {
+    this.audioCtx.resume().then(() => {
+      this.audio.play();
+    });
+  } else {
     this.audio.play();
   }
-
+}
   pause() {
     this.audio.pause();
   }

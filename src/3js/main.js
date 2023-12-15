@@ -76,7 +76,7 @@ export default class HoliCard {
     objects.lights = new LightSetup();
     objects.characterCube = new CharacterCube("");
     objects.ground = new Ground();
-    objects.randomObjects = new randomObjects();
+    //objects.randomObjects = new randomObjects();
     //objects.trees = createTrees();
     objects.snow = new snowSystem(200);
 
@@ -142,7 +142,7 @@ export default class HoliCard {
   randomize() {
     this.objects.characterCube.randomize();
     this.objects.background.randomize();
-    this.objects.randomObjects.randomize();
+    //this.objects.randomObjects.randomize();
   }
 
   setupGui() {
