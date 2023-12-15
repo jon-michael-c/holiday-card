@@ -84,7 +84,7 @@ class Ground {
     let plane = new Mesh(geometry, material);
     plane.rotation.x = Math.PI / -2;
     plane.receiveShadow = true;
-    plane.position.y = -2;
+    plane.position.y = 0;
 
     return [plane];
   }

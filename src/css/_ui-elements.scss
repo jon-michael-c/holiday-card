@@ -118,6 +118,21 @@ $button-bg: #5440da;
     // Adjusted value
     0 10% // Adjusted value
   );
+
+  @media screen and (max-width: 1000px) {
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% 100%,
+      0 100%,
+      0 5%,
+      5% 5%,
+      5% 95%,
+      95% 95%,
+      95% 5%,
+      -1% 5%
+    );
+  }
 }
 
 .modal.close {
@@ -137,6 +152,9 @@ $button-bg: #5440da;
 
 .modal .modal-content > div {
   width: 50%;
+  @media screen and (max-width: 1000px) {
+    width: 100%;
+  }
 }
 
 .modal-content {
@@ -154,6 +172,12 @@ $button-bg: #5440da;
   padding: 50px;
   text-align: center;
   color: #5440d8;
+
+  @media screen and (max-width: 1000px) {
+    top: 53.5%;
+    left: 12%;
+    padding: 0px;
+  }
 }
 
 .modal-inner {
@@ -168,6 +192,11 @@ $button-bg: #5440da;
     height: auto;
     bottom: 0;
     right: 0;
+
+    @media screen and (max-width: 1000px) {
+      bottom: 10px;
+      right: -10px;
+    }
   }
 
   .modal-content--txt {
@@ -196,6 +225,10 @@ $button-bg: #5440da;
 
         &.active {
           opacity: 1;
+        }
+
+        @media screen and (max-width: 1000px) {
+          top: 14%;
         }
       }
     }
