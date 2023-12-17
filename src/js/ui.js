@@ -38,11 +38,22 @@ function toggleModal() {
   let happies = document.querySelectorAll(".happy");
   // Get random element from happies
   let randomHappy = happies[Math.floor(Math.random() * happies.length)];
+  const colors = ["purple", "midnight", "red", "sky", "green", "yellow"];
+
+  let randomColor = Object.values(colors)[Math.floor(Math.random() * colors.length)];
+
+  document.querySelector(".modal-content--img svg").classList.add(randomColor);
+
+  
+
+
   setTimeout(() => {
     modal.classList.toggle("close");
-    buttons.classList.toggle("close");
+    card.controlContainer.classList.toggle("active");
     randomHappy.classList.toggle("active");
   }, 500);
+
+
   
 
   /*

@@ -1,7 +1,34 @@
+$purple:  #5440da;
+$midnight: #33374c;
+$red: #ff7866;
+$sky: #92c2c3;
+$green: #80cb9e;
+$yellow: #ffb55e;
+
+//Make classes for each color for stroke and fill
+$colors: (
+  purple: $purple,
+  midnight: $midnight,
+  red: $red,
+  sky: $sky,
+  green: $green,
+  yellow: $yellow
+);
+
+@each $color, $value in $colors {
+  .#{$color} {
+    fill: $value;
+    stroke: $value;
+  }
+}
+
+
 @import "./css/loadingScreen";
 @import "./css/audioBtn";
 @import "./css/ui-elements";
 @import url('https://fonts.googleapis.com/css2?family=Titillium+Web:ital@1&display=swap');
+
+
 
 body {
   margin: 0;

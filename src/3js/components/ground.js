@@ -3,10 +3,10 @@ import { Texture, PlaneGeometry, BoxGeometry, Mesh } from "three";
 import { Tween } from "tween";
 
 class Ground {
-  randomOffsetX = Math.random() * 1000;
-  randomOffsetY = Math.random() * 1000;
 
   constructor() {
+  this.randomOffsetY = Math.random() * 1000;
+  this.randomOffsetX = Math.random() * 1000;
     this.group = this.createSnowyGround();
   }
 

@@ -3,13 +3,7 @@ class AudioControl {
     // Load Audio Source and Create Audio Element
     this.src = src;
     this.audioContainer = document.querySelector(".audio-control");
-    // Create Audio Element in AudioContainer
-    this.audioContainer.innerHTML += `
-      <audio id="audio" src="${this.src}"  playsinline ></audio>
-    `;
-    this.audio = this.audioContainer.querySelector("audio");
-    this.audio.src = this.src;
-
+    this.audio = document.querySelector("audio");
     // Set Audio Properties
     this.audio.volume = 0.5;
     this.audio.loop = true;
@@ -22,23 +16,32 @@ class AudioControl {
     this.audioSrc.connect(this.analyser);
     this.audioSrc.connect(this.audioCtx.destination);
     this.frequencyData = new Uint8Array(this.analyser.frequencyBinCount);
+    if(this.audioCtx.state === 'suspended') {
+      document.querySelector(".audio-btn").classList.add("sound-mute")
+      this.pause();
+      
+    }
   }
 
   play() {
-  if (this.audioCtx.state === 'suspended') {
-    this.audioCtx.resume().then(() => {
-      this.audio.play();
-    });
-  } else {
     this.audio.play();
-  }
 }
+
   pause() {
     this.audio.pause();
   }
 
   toggle() {
-    this.audio.paused ? this.play() : this.pause();
+
+     if (this.audio.paused) {
+      this.play();
+    } else if(this.audioCtx.state === 'suspended') {
+this.audioCtx.resume().then(() => {
+      this.audio.play();
+    });
+    }else {
+      this.pause();
+    }
   }
 }
 

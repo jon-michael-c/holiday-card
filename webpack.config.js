@@ -1,12 +1,11 @@
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
-
+const TerserPlugin = require("terser-webpack-plugin");
 module.exports = {
   // Define the entry point of your application
   entry: "./src/index.js",
 
-  // Define the output directory and filenames
   output: {
     filename: "./js/index.js",
     path: path.resolve(__dirname, "dist"),
@@ -51,9 +50,12 @@ module.exports = {
   optimization: {
     minimizer: [
       new CssMinimizerPlugin(), // Minify CSS
+      new TerserPlugin(), // Minify JavaScript
     ],
   },
 
   // Enable source maps for debugging
   devtool: "source-map",
 };
+
+ 

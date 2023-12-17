@@ -16,6 +16,8 @@
 
     "html2canvas": "^1.4.1",
 
+    "terser-webpack-plugin": "^5.3.9",
+
     "three": "^0.158.0",
 
     "three-orbitcontrols": "^2.110.3",

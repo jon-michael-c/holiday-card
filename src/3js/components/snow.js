@@ -21,11 +21,10 @@ export default class snowSystem {
 
     const material = new PointsMaterial({
       color: 0xffffff,
-      size: 0.75,
+      size: 1.8,
       sizeAttenuation: true,
-      opacity: 0.6,
+      opacity: 0.9,
       depthTest: true,
-      transparent: true,
     });
 
     const snow = new Points(geometry, material);
