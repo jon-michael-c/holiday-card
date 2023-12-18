@@ -22,7 +22,7 @@ function takeScreenshot() {
 
 window.download = function download() {
   html2canvas(document.body).then((canvas) => {
-    var image = canvas.toDataURL("image/jpeg");
+    var image = canvas.toDataURL("image/png");
 
     // You can then download it or display it on the page
     // For example, to download it:
@@ -31,7 +31,7 @@ window.download = function download() {
     a.style.visibility = "hidden";
     a.style.zIndex = "100000";
     a.href = image;
-    a.download = "screenshot.png";
+    a.download = "holi-card";
     a.click();
   });
 };
