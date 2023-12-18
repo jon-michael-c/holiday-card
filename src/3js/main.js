@@ -138,7 +138,7 @@ class HoliCard {
   randomize() {
     this.objects.characterCube.randomize();
     this.objects.background.randomize();
-    this.objects.randomObjects.randomize();
+    //this.objects.randomObjects.randomize();
   }
 
 

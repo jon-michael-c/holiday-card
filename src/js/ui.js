@@ -20,7 +20,7 @@ function takeScreenshot() {
 }
 
 window.download = function download() {
-  html2canvas(document.querySelector(".modal")).then((canvas) => {
+  html2canvas(document.body).then((canvas) => {
     var image = canvas.toDataURL("image/jpeg");
 
     // You can then download it or display it on the page
@@ -107,4 +107,8 @@ closeButton.addEventListener("click", toggleModal);
 
 trigger.addEventListener("click", toggleModal);
 window.addEventListener("click", windowOnClick);
-downloadButton.addEventListener("click", download);
+downloadButton.addEventListener("click", () => {
+  setTimeout(() => {
+    window.download();
+  }, 1000);
+});

@@ -189,7 +189,7 @@ $button-bg: #5440da;
 
   .modal-content--img {
     position: absolute;
-    width: 250px;
+    width: 40%;
     height: auto;
     bottom: 25%;
     right: 108px;
@@ -218,14 +218,14 @@ $button-bg: #5440da;
 
       .happy {
         position: absolute;
-        top: -100px;
-        left: -150px;
-        object-fit: cover;
-        width: 145%;
+        top: -78px;
+        /* left: -25%; */
+        object-fit: contain;
+        transform: translate(-57%);
+        width: 150%;
         height: 100%;
         opacity: 0;
         transition: all 0.3s ease-in-out;
-
 
         &.active {
           opacity: 1;
@@ -259,9 +259,10 @@ $button-bg: #5440da;
       .image-container {
         .happy {
           top: 0;
-          left: calc(-45% / 2);
-          height: 100%;
-
+          left: 0;
+          transform: translate(-17%, -30%);
+          height: fit-content;
+          width: 150%;
 
         }
       }
@@ -320,5 +321,6 @@ $button-bg: #5440da;
   @media screen and (max-width: 1000px) {
     
   right: 50px !important;
+  top: 10px !important;
   }
 }
