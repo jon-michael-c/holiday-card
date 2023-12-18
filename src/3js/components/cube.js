@@ -101,7 +101,7 @@ class CharacterCube {
     for (let i = 0; i < sectionColors.length; i++) {
       let sectionHeight;
       if (i == 0) {
-        sectionHeight = 1.35;
+        sectionHeight = 1.15;
       } else if (i == 1) {
         sectionHeight = 1;
       } else if (i == 2) {
@@ -118,10 +118,12 @@ class CharacterCube {
       const section = new Mesh(geometry, materials);
       section.position.y = cumulativeHeight + sectionHeight / 2; // Adjust y-position based on cumulative height
       cumulativeHeight += sectionHeight; // Update cumulative height
+      section.userData.outline = false;
       cubeGroup.add(section); // Add to group
     }
 
     cubeGroup.rotation.y = 0; // Set rotation around the y-axis
+      cubeGroup.userData.outline = false;
 
     return [cubeGroup];
   }

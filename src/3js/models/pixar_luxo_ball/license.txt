@@ -1,0 +1,11 @@
+Model Information:
+* title:	Pixar luxo ball
+* source:	https://sketchfab.com/3d-models/pixar-luxo-ball-c141141280134fbd8739891da5d2fbb7
+* author:	Victor.Alfonso.Ibarra.Ortega (https://sketchfab.com/Victor.Alfonso.Ibarra.Ortega)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Pixar luxo ball" (https://sketchfab.com/3d-models/pixar-luxo-ball-c141141280134fbd8739891da5d2fbb7) by Victor.Alfonso.Ibarra.Ortega (https://sketchfab.com/Victor.Alfonso.Ibarra.Ortega) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

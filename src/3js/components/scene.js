@@ -1,6 +1,7 @@
 import {
   Color,
   Fog,
+  FogExp2,
   LinearFilter,
   Scene,
   TextureLoader,
@@ -19,6 +20,9 @@ function createScene() {
   const scene = new Scene();
 
   scene.background = new Color(0xd7e9e9);
+
+  // Create a fogExp2 for a specific area
+
   // Create a CSS3DRenderer
   return scene;
 }

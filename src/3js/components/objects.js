@@ -15,9 +15,17 @@ import {
   SmoothShading,
 } from "three";
 import { Easing, Tween } from "tween";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { loadingManager } from "../systems/ProgressBar";
+import { Vector3 } from "three";
+
+
+
 
 class randomObjects {
-  constructor() {
+
+  constructor(camera) {
+    this.camera = camera;
     this.group = this.createRandomObjects();
   }
 
@@ -27,12 +35,12 @@ class randomObjects {
 
   createRandomObjects() {
     const randomObjects = [];
-    const objectCount = 10; // Number of random objects
+    const objectCount = 7; // Number of random objects
     const range = 20; // Range of coordinates
     const maxCoordinate = range / 2; // Maximum coordinate value
     this.minX = -10; // Minimum x position
     this.maxX = 10; // Maximum x position
-   this.minY = 1; // Minimum y position
+    this.minY = 1; // Minimum y position
     this.maxY = 9; // Maximum y position
     this.minZ = -15; // Minimum z position
     this.maxZ = -5; // Maximum z position
@@ -43,7 +51,6 @@ class randomObjects {
         new BoxGeometry(1, 1, 1),
         new SphereGeometry(0.5, 32, 32),
         new ConeGeometry(0.5, 1, 32),
-        // ... add more geometries if you like
       ];
       const material = new MeshBasicMaterial({
         color: Math.random() * 0xffffff,
@@ -59,10 +66,34 @@ class randomObjects {
 
       object.receiveShadow = true;
       object.castShadow = true;
+      object.lookAt(this.camera.position);
       randomObjects.push(object);
     }
 
+    //add a model to the scene 
+    const loader = new GLTFLoader(loadingManager);
+    let gift;
+    loader.load('../src/3js/models/gift.gltf', function (gltf) {
+      gltf.scene.scale.set(10, 10, 10);
+      gltf.scene.position.set(2, 2, 2);
+      gltf.scene.rotation.y = Math.PI / 2;
+      gift = gltf.scene;
+      randomObjects.push(gift);
+    })
+
+
+
+
+
     return randomObjects;
+  }
+
+  randomColor() {
+    let colors = [0x5440da, 0xff7866, 0x92c2c3, 0x80cb9e, 0xffb55e];
+
+
+
+    return colors[Math.floor(Math.random() * colors.length)];
   }
 
   randomize() {
@@ -74,6 +105,16 @@ class randomObjects {
     this.group.forEach((object) => {
       // Randomize position
       new Tween(object.position)
+        .onComplete(() => {
+
+          if (object.material) {
+
+            object.material.color.setHex(this.randomColor());
+          }
+          object.lookAt(this.camera.position);
+
+        })
+
         .to(
           {
             x: Math.random() * (this.maxX - this.minX) + this.minX,
@@ -85,169 +126,101 @@ class randomObjects {
         .easing(easing) // Use the Elastic InOut easing function
         .start();
 
-      // Randomize color
-      object.material.color.set(Math.random() * 0xffffff);
+
+
     });
   }
 }
 
-function createTrees() {
-  const trees = [];
-  const treeCount = 5; // Number of trees
-  const range = 20; // Range of coordinates
-  const maxCoordinate = range / 2; // Maximum coordinate value
-  const minX = -maxCoordinate; // Minimum x position
-  const maxX = maxCoordinate; // Maximum x position
-  const minY = -maxCoordinate; // Minimum y position
-  const maxY = maxCoordinate; // Maximum y position
-  const minZ = -maxCoordinate; // Minimum z position
-  const maxZ = maxCoordinate; // Maximum z position
+class Trees {
+  constructor() {
+    this.group = this.createTrees();
 
-  for (let i = 0; i < treeCount; i++) {
-    const tree = Tree();
-    tree.position.set(
-      Math.random() * (maxX - minX) + minX,
-      minY,
-      Math.random() * (maxZ - minZ) + minZ
-    );
-
-    trees.push(tree);
+  }
+  getGroup() {
+    return this.group;
   }
 
-  return trees;
+  createTrees() {
+    const trees = [];
+    const treeCount = 25; // Number of trees
+    this.minX = -25; // Minimum x position
+    this.maxX = 25; // Maximum x position
+    this.minY = -1; // Minimum y position
+    this.maxY = 0.6; // Maximum y position
+    this.minZ = -120; // Minimum z position
+    this.maxZ = -70; // Maximum z position
+
+    for (let i = 0; i < treeCount; i++) {
+      const tree = Tree();
+      tree.position.set(
+        Math.random() * (this.maxX - this.minX) + this.minX,
+        this.minY,
+        Math.random() * (this.maxZ - this.minZ) + this.minZ
+      );
+
+      trees.push(tree);
+    }
+
+    return trees;
+  }
 }
-/*
+
+
+
+
+
 
 const Tree = () => {
   const Colors = {
     brown: 0x59332e,
-    green: 0x7abf8e,
+    green: 0x80cb9e,
   };
-};
-  
+  let x = 0.5;
+  let y = 6 * 3;
+  let z = 4;
+  let w = 6 * 3;
 
-  for (let i = 0; i < objectCount; i++) {
-    // Create random geometries like box, sphere, cone, etc.
-    const geometries = [
-      new BoxGeometry(1, 1, 1),
-      new SphereGeometry(0.5, 32, 32),
-      new ConeGeometry(0.5, 1, 32),
-      // ... add more geometries if you like
-    ];
-    const material = new MeshBasicMaterial({
-      color: Math.random() * 0xffffff,
-    });
-    const randomGeometry =
-      geometries[Math.floor(Math.random() * geometries.length)];
-    const object = new Mesh(randomGeometry, material);
+  const factor = 0.15;
 
-    // Position objects randomly within the range
-    object.position.x = (Math.random() - 0.5) * range;
-    object.position.y = (Math.random() - 0.5) * range;
-    object.position.z = (Math.random() - 0.5) * range;
-
-    object.receiveShadow = true;
-    object.castShadow = true;
-    randomObjects.push(object);
-  }
-
-  return randomObjects;
-}
-
-function randomize() {
-  //Using tween to randomize the objects
-  this.group.forEach((object) => {
-    new Tween(object.position)
-      .to(
-        {
-          x: (Math.random() - 0.5) * 20,
-          y: (Math.random() - 0.5) * 20,
-          z: (Math.random() - 0.5) * 20,
-        },
-        1000
-      )
-      .start();
-  });
-}
-
-
-}
-
-function createTrees() {
-  const trees = [];
-  const treeCount = 5; // Number of trees
-  for (let i = 0; i < treeCount; i++) {
-    const tree = Tree();
-    tree.position.set(
-      (Math.random() - 0.5) * 599, // Random X position
-      -1, // Y position (adjust based on ground level)
-      (Math.random() - 0.5) * 1000 // Random Z position
-    );
-
-    trees.push(tree);
-  }
-
-  return trees;
-}
-
-const Tree = () => {
-  const Colors = {
-    brown: 0x59332e,
-    green: 0x7abf8e,
-  };
   const mesh = new Object3D();
 
-  var matTreeLeaves = new MeshPhongMaterial({
+  var matTreeLeaves = new MeshBasicMaterial({
     color: Colors.green,
-    roughness: 0.7,
-    metalness: 0.3,
   });
-  var geonTreeBase = new BoxGeometry(10, 20, 10);
-  var matTreeBase = new MeshPhongMaterial({
+  var geonTreeBase = new BoxGeometry(1, 2, 1);
+  var matTreeBase = new MeshBasicMaterial({
     color: Colors.brown,
   });
   var treeBase = new Mesh(geonTreeBase, matTreeBase);
-  treeBase.castShadow = true;
-  treeBase.receiveShadow = true;
   mesh.add(treeBase);
 
-  var geomTreeLeaves1 = new CylinderGeometry(1, 12 * 3, 12 * 3, 4);
+  var geomTreeLeaves1 = new CylinderGeometry(x, y, w, z); // Half the size of the first set of leaves
+
   var treeLeaves1 = new Mesh(geomTreeLeaves1, matTreeLeaves);
-  treeLeaves1.castShadow = true;
-  treeLeaves1.receiveShadow = true;
-  treeLeaves1.position.y = 20;
+  treeLeaves1.position.y = 1.5;
+  treeLeaves1.scale.set(factor / 1.2, factor / 1.2, factor / 1.2); // Adjust the scale values as needed
   mesh.add(treeLeaves1);
 
-  var geomTreeLeaves2 = new CylinderGeometry(1, 9 * 3, 9 * 3, 4);
+  var geomTreeLeaves2 = new CylinderGeometry(x, y, w, z); // Half the size of the second set of leaves
   var treeLeaves2 = new Mesh(geomTreeLeaves2, matTreeLeaves);
-  treeLeaves2.castShadow = true;
-  treeLeaves2.position.y = 40;
-  treeLeaves2.receiveShadow = true;
+  treeLeaves2.position.y = 2.1;
+  treeLeaves2.scale.set(factor / 1.5, factor / 1.5, factor / 1.5); // Adjust the scale values as needed
   mesh.add(treeLeaves2);
 
-  var geomTreeLeaves3 = new CylinderGeometry(1, 6 * 3, 6 * 3, 4);
+  var geomTreeLeaves3 = new CylinderGeometry(x, y, w, z); // Half the size of the second set of leaves
   var treeLeaves3 = new Mesh(geomTreeLeaves3, matTreeLeaves);
-  treeLeaves3.castShadow = true;
-  treeLeaves3.position.y = 55;
-  treeLeaves3.receiveShadow = true;
+  treeLeaves3.position.y = 2.7;
+  treeLeaves3.scale.set(factor / 2, factor / 2, factor / 2); // Adjust the scale values as needed
+
+  // Add fog to the material
+
   mesh.add(treeLeaves3);
+
 
   return mesh;
 };
 
-function updateSnow() {
-  /*
-  const vertices = snow.geometry.attributes.position.array;
-  for (let i = 1; i < vertices.length; i += 3) {
-    vertices[i] -= 1; // Adjust speed of falling
-
-    if (vertices[i] < -1000) {
-      vertices[i] = 1000; // Reset flake to top
-    }
-  }
-  //snow.geometry.attributes.position.needsUpdate = true;
-}
-  */
 
 
-export { randomObjects, createTrees };
+export { randomObjects, Trees };

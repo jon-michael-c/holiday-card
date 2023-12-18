@@ -1,60 +1,82 @@
 import html2canvas from "html2canvas";
 
 var modal = document.querySelector(".modal");
+var modalContent = document.querySelector(".modal-content");
 var trigger = document.querySelector(".trigger");
-var closeButton = document.querySelector(".close-button");
+var closeButton = document.querySelector(".close-btn");
+var downloadButton = document.querySelector(".dwn-btn");
 var buttons = document.querySelector(".control-container");
+var branding = document.querySelector(".modal-content--img ");
 
 function takeScreenshot() {
-  html2canvas(document.body).then((canvas) => {
+  html2canvas(document.getElementById("3js")).then((canvas) => {
+    
     let img = document.createElement("img");
     img.src = canvas.toDataURL();
-    img.style.zIndex = 1000;
 
-    document.body.appendChild(img);
+    modalContent.appendChild(img);
     img.classList.add("screenshot");
   });
 }
 
 window.download = function download() {
-  html2canvas(document.body).then((canvas) => {
-    var image = canvas.toDataURL("image/png");
+  html2canvas(document.querySelector(".modal")).then((canvas) => {
+    var image = canvas.toDataURL("image/jpeg");
 
     // You can then download it or display it on the page
     // For example, to download it:
     var a = document.createElement("a");
     a.style.display = "none";
-    a.style.zIndex = 1000;
+    a.style.visibility = "hidden";
+    a.style.zIndex = "100000";
     a.href = image;
     a.download = "screenshot.png";
     a.click();
   });
 };
 function toggleModal() {
-  if(card.mobile) {
+  if (card.mobile) {
 
-  card.mobileMove();
+    card.mobileMove();
   }
   let happies = document.querySelectorAll(".happy");
+  // Make sure happies are not active
+  happies.forEach((happy) => {
+    happy.classList.remove("active");
+  });
   // Get random element from happies
   let randomHappy = happies[Math.floor(Math.random() * happies.length)];
-  const colors = ["purple", "midnight", "red", "sky", "green", "yellow"];
+  //const colors = ["purple", "midnight", "red", "sky", "green", "yellow"];
+  const colors = ["purple"];
 
   let randomColor = Object.values(colors)[Math.floor(Math.random() * colors.length)];
 
   document.querySelector(".modal-content--img svg").classList.add(randomColor);
 
-  
+
+
 
 
   setTimeout(() => {
-    modal.classList.toggle("close");
     card.controlContainer.classList.toggle("active");
-    randomHappy.classList.toggle("active");
   }, 500);
 
+  setTimeout(() => {
+    takeScreenshot()
+    modal.classList.toggle("close");
+  }, 700)
 
-  
+  setTimeout(() => {
+
+    randomHappy.classList.toggle("active");
+    closeButton.classList.toggle("active");
+    downloadButton.classList.toggle("active");
+    branding.classList.toggle("active");
+    
+  }, 1550);
+
+
+
 
   /*
   setTimeout(() => {
@@ -81,5 +103,8 @@ function getRandomImage() {
   return randomImage;
 }
 
+closeButton.addEventListener("click", toggleModal);
+
 trigger.addEventListener("click", toggleModal);
 window.addEventListener("click", windowOnClick);
+downloadButton.addEventListener("click", download);

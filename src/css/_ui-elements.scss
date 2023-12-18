@@ -5,11 +5,12 @@ $button-bg: #5440da;
 }
 
 #main-controls {
-opacity: 0 ;
-transition: all 0.3s ease-in-out;
-&.active {
-  opacity: 1;
-}
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+
+  &.active {
+    opacity: 1;
+  }
 }
 
 .control-container {
@@ -78,7 +79,7 @@ transition: all 0.3s ease-in-out;
       margin: 0 25px;
       font-size: 20px;
       min-width: 120px;
-    }  
+    }
 
     &.btn2 {
       img {
@@ -112,49 +113,31 @@ transition: all 0.3s ease-in-out;
   height: 100%;
   top: 0;
   overflow: hidden;
-  /* background-color: #000;  */
   color: #fff;
-  transition: all 1s;
+  transition: all 1s ease-in-out;
   z-index: 1000;
-}
-.modal-bg {
   background-image: url("../assets/images/bg.png");
-  background-size: contain;
-  position: absolute;
-  z-index: -2;
+  background-size: cover;
+  background-position: center center;
+  z-index: 1000;
   width: 100%;
   height: 100%;
-  clip-path: polygon(
-    0 0,
-    100% 0,
-    100% 100%,
-    0 100%,
-    0 10%,
-    // Adjusted value
-    10% 10%,
-    // Adjusted value
-    10% 90%,
-    // Adjusted value
-    90% 90%,
-    // Adjusted value
-    90% 10%,
-    // Adjusted value
-    0 10% // Adjusted value
-  );
+}
+
+.modal-bg {
+  display: none;
 
   @media screen and (max-width: 1000px) {
-    clip-path: polygon(
-      0 0,
-      100% 0,
-      100% 100%,
-      0 100%,
-      0 5%,
-      5% 5%,
-      5% 95%,
-      95% 95%,
-      95% 5%,
-      -1% 5%
-    );
+    clip-path: polygon(0 0,
+        100% 0,
+        100% 100%,
+        0 100%,
+        0 5%,
+        5% 5%,
+        5% 95%,
+        95% 95%,
+        95% 5%,
+        -1% 5%);
   }
 }
 
@@ -173,8 +156,9 @@ transition: all 0.3s ease-in-out;
   display: block;
 }
 
-.modal .modal-content > div {
+.modal .modal-content>div {
   width: 50%;
+
   @media screen and (max-width: 1000px) {
     width: 100%;
   }
@@ -184,42 +168,40 @@ transition: all 0.3s ease-in-out;
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  margin: 50px auto;
-  top: 44.5%;
-  left: 10%;
-  height: 69.5%;
-  width: 74%;
-  transform: translateY(-50%);
-  position: absolute;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  height: 85%;
+  width: 85%;
+  transform: translate3d(-50%, -50%, 0);
   background-color: transparent;
-  padding: 50px;
   text-align: center;
   color: #5440d8;
-
-  @media screen and (max-width: 1000px) {
-    top: 53.5%;
-    left: 12%;
-    padding: 0px;
-  }
 }
 
 .modal-inner {
   position: relative;
   height: 100%;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+
   .modal-content--img {
     position: absolute;
-    width: 150px;
+    width: 250px;
     height: auto;
-    bottom: 0;
-    right: 0;
+    bottom: 25%;
+    right: 108px;
+    left: 20%;
+    z-index: 1000;
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
 
-    @media screen and (max-width: 1000px) {
-      bottom: 10px;
-      right: -10px;
+    &.active {
+      opacity: 1;
     }
+
   }
 
   .modal-content--txt {
@@ -241,20 +223,14 @@ transition: all 0.3s ease-in-out;
         object-fit: cover;
         width: 145%;
         height: 100%;
-        z-index: 9999;
-        overflow: visible;
         opacity: 0;
         transition: all 0.3s ease-in-out;
+
 
         &.active {
           opacity: 1;
         }
 
-        @media screen and (max-width: 1000px) {
-          top: 14%;
-          left: 0%;
-          width: 100%;
-        }
       }
     }
 
@@ -268,9 +244,81 @@ transition: all 0.3s ease-in-out;
       stroke: #33374c;
     }
   }
+
+  @media screen and (max-width: 1000px) {
+    height: 50%;
+    bottom: -25%;
+    left: 0;
+
+    .modal-content--txt {
+      top: 0;
+      left: 0;
+      height: 75%;
+      width: 110vw;
+
+      .image-container {
+        .happy {
+          top: 0;
+          left: calc(-45% / 2);
+          height: 100%;
+
+
+        }
+      }
+
+    }
+
+    .modal-content--img {
+      bottom: 10px;
+      right: unset;
+      left: unset;
+      width: 150px;
+    }
+  }
 }
 
 .modal-img svg {
   fill: #5440d8;
   stroke: #33374c;
+}
+
+
+.close-btn, .dwn-btn {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  width: 20px;
+  height: 20px;
+  opacity: 0;
+  z-index: 10000;
+  visibility: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  transform-origin: center center;
+
+  &.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  &:hover {
+    transform: scale(1.2);
+  }
+
+  @media screen and (max-width: 1000px) {
+    top: 10px;
+    right: 10px;
+    
+  }
+}
+
+.dwn-btn {
+
+  right: 25px;
+  top: 75px;
+
+  @media screen and (max-width: 1000px) {
+    
+  right: 50px !important;
+  }
 }

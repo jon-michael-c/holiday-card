@@ -3,33 +3,34 @@ import {
   Float32BufferAttribute,
   PointsMaterial,
   Points,
+  SphereGeometry,
+  Mesh,
+  MeshBasicMaterial
 } from "three";
 
 export default class snowSystem {
   constructor(numberOfSnowflakes) {
     const geometry = new BufferGeometry();
     const vertices = [];
+        const snowflakes = [];
 
+
+    
     for (let i = 0; i < numberOfSnowflakes; i++) {
       const x = Math.random() * 200 - 100;
       const y = Math.random() * 100;
       const z = Math.random() * 200 - 100;
-      vertices.push(x, y, z);
+
+      const geometry = new SphereGeometry(0.2, 15, 15); // Create a sphere geometry
+      const material = new MeshBasicMaterial({ color: 0xffffff }); // Create a basic material
+
+      const snowflake = new Mesh(geometry, material); // Create a mesh
+      snowflake.position.set(x, y, z); // Set the position of the snowflake
+
+      snowflakes.push(snowflake);
     }
 
-    geometry.setAttribute("position", new Float32BufferAttribute(vertices, 3));
-
-    const material = new PointsMaterial({
-      color: 0xffffff,
-      size: 1.8,
-      sizeAttenuation: true,
-      opacity: 0.9,
-      depthTest: true,
-    });
-
-    const snow = new Points(geometry, material);
-
-    this.snow = [snow];
+    this.snow = snowflakes;
   }
 
   getGroup() {
@@ -37,24 +38,24 @@ export default class snowSystem {
   }
 
   tick() {
-    const vertices = this.snow[0].geometry.attributes.position.array;
-    for (let i = 0; i < vertices.length; i += 3) {
+    for (let i = 0; i < this.snow.length; i++) {
+      const snowflake = this.snow[i];
+  
       // Vertical movement (Y-axis)
-      vertices[i + 1] -= Math.random() * 0.2 + 0.2; // Variable speed
-
+      snowflake.position.y -= Math.random() * 0.2 + 0.2; // Variable speed
+  
       // Horizontal movement (X and Z-axis)
-      vertices[i] += (Math.random() - 0.2) * 0.2; // Random left-right movement
-      vertices[i + 2] += (Math.random() - 0.2) * 0.2; // Random forward-backward movement
-
+      snowflake.position.x += (Math.random() - 0.5) * 0.2; // Random left-right movement
+      snowflake.position.z += (Math.random() - 0.5) * 0.2; // Random forward-backward movement
+  
       // Reset flake to top if it reaches the ground level
-      if (vertices[i + 1] < -3) {
-        vertices[i] = Math.random() * 200 - 100;
-        vertices[i + 1] = 100;
-        vertices[i + 2] = Math.random() * 200 - 100;
+      if (snowflake.position.y < -3) {
+        snowflake.position.x = Math.random() * 200 - 100;
+        snowflake.position.y = 100;
+        snowflake.position.z = Math.random() * 200 - 100;
       }
     }
-    this.snow[0].geometry.attributes.position.needsUpdate = true;
-  }
+}
 }
 
 /*

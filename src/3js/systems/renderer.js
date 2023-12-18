@@ -16,6 +16,8 @@ function createRenderer(container, window) {
     preserveDrawingBuffer: true,
   });
 
+
+
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setClearColor(0xffffff, 0);
@@ -24,6 +26,7 @@ function createRenderer(container, window) {
   renderer.shadowMap.type = VSMShadowMap;
   ColorManagement.enabled = true;
   renderer.outputEncoding = SRGBColorSpace;
+
 
   return renderer;
 }

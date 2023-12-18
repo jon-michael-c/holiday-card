@@ -10,17 +10,13 @@ class AudioControl {
 
     // Create Audio Context
     this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    this.audioElement = document.getElementById("audio");
-    this.audioSrc = this.audioCtx.createMediaElementSource(this.audioElement);
+    this.audioElement = this.audio;
+    this.audioSrc = this.audioCtx.createMediaElementSource(this.audio);
     this.analyser = this.audioCtx.createAnalyser();
     this.audioSrc.connect(this.analyser);
     this.audioSrc.connect(this.audioCtx.destination);
     this.frequencyData = new Uint8Array(this.analyser.frequencyBinCount);
-    if(this.audioCtx.state === 'suspended') {
-      document.querySelector(".audio-btn").classList.add("sound-mute")
-      this.pause();
-      
-    }
+    
   }
 
   play() {

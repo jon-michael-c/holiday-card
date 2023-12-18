@@ -14,6 +14,9 @@ import { Background } from "./components/background";
 //import { AudioControl } from "./systems/AudioControl";
 import { ProgressBar, loadingManager } from "./systems/ProgressBar";
 import { Vector3 } from "three";
+import { Trees, randomObjects } from "./components/objects";
+import { AudioControl } from "./systems/AudioControl";
+
 
 
 class HoliCard {
@@ -74,9 +77,8 @@ class HoliCard {
     this.objects.lights = new LightSetup();
     this.objects.characterCube = new CharacterCube("");
     this.objects.ground = new Ground();
-    //objects.randomObjects = new randomObjects();
-    //objects.trees = createTrees();
-    this.objects.snow = new snowSystem(500);
+    //this.objects.randomObjects = new randomObjects(this.camera);
+    this.objects.snow = new snowSystem(600);
 
     // Creating Object Array
     Object.keys(this.objects).forEach((key) => {
@@ -96,7 +98,6 @@ class HoliCard {
     window.addEventListener(
       "resize",
       function () {
-        this.camera.aspect = window.innerWidth / window.innerHeight;
         this.camera.updateProjectionMatrix();
         this.renderer.setSize(window.innerWidth, window.innerHeight);
       },
@@ -106,17 +107,14 @@ class HoliCard {
     this.objects.camera = this.camera;
     this.camera.lookAt(this.objects.characterCube.getGroup()[0].position);
 
-    /*
-    // Setup Audio
-    this.audio = new AudioControl("../src/3js/music/holiday_card.mp3");
+    const audioControl = new AudioControl();
     const audioBtn = document.querySelector(".audio-btn");
 
     audioBtn.addEventListener("click", () => {
-      this.audio.toggle();
+      audioControl.toggle();
       audioBtn.classList.toggle("sound-mute");
     });
 
-    */
     if (window.innerWidth < 1000) {
       this.mobile = true
       this.mobileView();
@@ -140,7 +138,7 @@ class HoliCard {
   randomize() {
     this.objects.characterCube.randomize();
     this.objects.background.randomize();
-    //this.objects.randomObjects.randomize();
+    this.objects.randomObjects.randomize();
   }
 
 

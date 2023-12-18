@@ -3,6 +3,8 @@ import { updateSnow } from "../components/snow";
 import { Vector3 } from "three";
 import TWEEN from "tween";
 
+import { OutlineEffect } from 'three/examples/jsm/effects/OutlineEffect.js';
+
 
 const clock = new Clock();
 
@@ -13,6 +15,7 @@ class Loop {
     this.renderer = renderer;
     this.objects = objects;
     this.updatables = [];
+   
   }
 
   start() {
@@ -29,6 +32,7 @@ class Loop {
       // render a frame
 
       this.renderer.render(this.scene, this.camera);
+
     });
   }
 

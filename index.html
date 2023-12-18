@@ -4,10 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./dist/main.css" />
-
-
     <title>Leibowitz Holiday Card Workshop</title>
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <meta name="description" content="Leibowitz Holiday Card Workshop - Spread joy and happiness with our interactive holiday card!" />
@@ -39,7 +36,11 @@
       </div>
     </div>
     <canvas id="3js"></canvas>
-    <div class="audio-control">
+        <div id="main-controls" class="control-container">
+      <div class="container"></div>
+
+      <div class="control-container">
+<div class="audio-control">
       <div class="audio-btn">
         <div class="unmuted toggle-sound" href="#">
           <div class="tooltip--left sound" data-tooltip="Turn On/Off Sound">
@@ -62,11 +63,11 @@
           </div>
         </div>
       </div>
-    </div>
-    <div id="main-controls" class="control-container">
-      <div class="container"></div>
+      <audio id="audio" autoplay  playsinline loop>
+        <source src="./src/3js/music/holiday_card.mp3" />
 
-      <div class="control-container">
+    </div>
+
         <div class="centerer">
           <div class="button btn2" onclick="card.randomize();">
             <span class="img-wrapper">
@@ -169,11 +170,17 @@
         </div>
       </div>
     </div>
-    <div class="external-link">
+    <div class="close-btn">
+      <img src="./src/assets/svg/close.svg" alt="close button" />
+    </div>
+    <div class="dwn-btn">
+      <img src="./src/assets/svg/download.svg" alt="arrow button" />
+    </div>
+    <!-- <div class="external-link">
       <a href="https://www.leibowitzdesign.com/" target="_blank">
         Made by Leibowitz Design
       </a>
-    </div>
+    </div> -->
   </body>
     <script type="module" src="./dist/js/index.js"></script>
 </html>
