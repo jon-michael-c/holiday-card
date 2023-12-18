@@ -7,6 +7,7 @@ var closeButton = document.querySelector(".close-btn");
 var downloadButton = document.querySelector(".dwn-btn");
 var buttons = document.querySelector(".control-container");
 var branding = document.querySelector(".modal-content--img ");
+var externalLink = document.querySelector(".external-link");
 
 function takeScreenshot() {
   html2canvas(document.getElementById("3js")).then((canvas) => {
@@ -72,6 +73,7 @@ function toggleModal() {
     closeButton.classList.toggle("active");
     downloadButton.classList.toggle("active");
     branding.classList.toggle("active");
+    externalLink.classList.toggle("active");
     
   }, 1550);
 

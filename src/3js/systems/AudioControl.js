@@ -28,16 +28,15 @@ class AudioControl {
   }
 
   toggle() {
-
-     if (this.audio.paused) {
+    if(this.audioCtx.state === 'suspended') {
+      this.audioCtx.resume();
+    }
+    if (this.audio.paused) {
       this.play();
-    } else if(this.audioCtx.state === 'suspended') {
-this.audioCtx.resume().then(() => {
-      this.audio.play();
-    });
-    }else {
+    } else {
       this.pause();
     }
+    
   }
 }
 

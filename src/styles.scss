@@ -47,13 +47,20 @@ canvas {
 }
 
 .external-link {
-  font-size: 24px;
+  font-size: 14px;
   font-weight: 400;
   font-style: italic;
   position: absolute;
-  bottom: 15px;
-  right: 15px;
+  bottom: 0;
+  left:0;
   z-index: 99999;
+  opacity: 0;
+  visibility: hidden;
+  background-color: $red;
+  text-align: center;
+  width: 100%;
+  padding: 2px;
+
   a {
     position: relative;
     color: white;
@@ -72,6 +79,12 @@ canvas {
 
 
   }
+
+  &.active {
+    opacity: 1 ;
+    visibility: visible;
+  }
+
     @media screen and (max-width: 1000px) {
      bottom: 5px; 
      font-size: 15px;
