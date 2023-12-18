@@ -21,7 +21,8 @@ function takeScreenshot() {
 }
 
 window.download = function download() {
-  html2canvas(document.body).then((canvas) => {
+  html2canvas(modal).then((canvas) => {
+    
     var image = canvas.toDataURL("image/png");
 
     // You can then download it or display it on the page
